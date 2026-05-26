@@ -1,0 +1,3017 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clube Estante Mágica · Treinamento CS · 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6B46C1;
+    --primary-dark: #4C1D95;
+    --primary-light: #EDE5FA;
+    --accent: #F59E0B;
+    --accent-light: #FEF3C7;
+    --gold: #D97706;
+    --gold-light: #FEF3C7;
+    --success: #10B981;
+    --success-light: #D1FAE5;
+    --danger: #EF4444;
+    --danger-light: #FEE2E2;
+    --info: #3B82F6;
+    --info-light: #DBEAFE;
+    --pink: #EC4899;
+    --pink-light: #FCE7F3;
+    --text: #1F2937;
+    --text-soft: #6B7280;
+    --bg: #FAF7FF;
+    --card: #FFFFFF;
+    --border: #E5E7EB;
+    /* WhatsApp colors */
+    --wpp-bg: #ECE5DD;
+    --wpp-header: #075E54;
+    --wpp-school-bubble: #FFFFFF;
+    --wpp-cs-bubble: #DCF8C6;
+    --wpp-input: #F0F0F0;
+    --wpp-time: #667781;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    min-height: 100vh; display: flex;
+  }
+  .sidebar {
+    width: 310px; background: var(--card);
+    border-right: 1px solid var(--border);
+    padding: 24px 0; position: sticky; top: 0;
+    height: 100vh; overflow-y: auto; flex-shrink: 0;
+  }
+  .sidebar-header { padding: 0 24px 20px; border-bottom: 1px solid var(--border); }
+  .sidebar-header h1 { font-size: 18px; color: var(--primary); margin-bottom: 4px; }
+  .sidebar-header p { font-size: 12px; color: var(--text-soft); }
+  .user-badge {
+    padding: 12px 24px; background: var(--primary-light);
+    border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .user-badge strong { color: var(--primary-dark); display: block; }
+  .user-badge .small { color: var(--text-soft); font-size: 12px; }
+  .progress-container { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  .progress-label { font-size: 12px; color: var(--text-soft); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.4s ease; }
+  .nav-section {
+    font-size: 11px; font-weight: 700; color: var(--primary-dark);
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 14px 24px 6px; background: #FAFAFA;
+  }
+  .nav-list { list-style: none; padding: 0 0 12px; }
+  .nav-item {
+    padding: 10px 24px; cursor: pointer;
+    border-left: 3px solid transparent;
+    font-size: 13.5px; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    color: var(--text);
+  }
+  .nav-item:hover { background: var(--primary-light); }
+  .nav-item.active { background: var(--primary-light); border-left-color: var(--primary); color: var(--primary); font-weight: 600; }
+  .nav-item.completed::before { content: '✓'; color: var(--success); font-weight: 700; }
+  .nav-num { color: var(--text-soft); font-size: 12px; margin-right: 4px; }
+
+  .main { flex: 1; padding: 40px 56px; max-width: 960px; margin: 0 auto; }
+  .module { display: none; }
+  .module.active { display: block; }
+  .module-header { margin-bottom: 28px; }
+  .module-tag {
+    display: inline-block; background: var(--primary-light); color: var(--primary);
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .module-tag.simulator {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+  }
+  .module h2 { font-size: 32px; color: var(--primary-dark); margin-top: 8px; }
+  .module h3 { font-size: 22px; color: var(--primary-dark); margin-top: 28px; margin-bottom: 12px; }
+  .module h4 { font-size: 18px; color: var(--text); margin-top: 22px; margin-bottom: 8px; }
+  .module .lead { color: var(--text-soft); font-size: 16px; margin-top: 6px; }
+  .module p { margin-bottom: 14px; font-size: 16px; }
+  .module ul, .module ol { margin: 0 0 16px 24px; }
+  .module li { margin-bottom: 8px; font-size: 16px; }
+
+  /* Manifesto / Hero */
+  .welcome-hero {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; padding: 40px; border-radius: 14px; margin-bottom: 28px;
+  }
+  .welcome-hero h1 { font-size: 34px; margin-bottom: 12px; }
+  .welcome-hero p { font-size: 17px; opacity: 0.95; line-height: 1.6; }
+
+  .manifesto {
+    background: linear-gradient(135deg, #4C1D95 0%, #6B46C1 50%, #D97706 100%);
+    color: white; padding: 32px; border-radius: 14px;
+    margin: 22px 0; box-shadow: 0 4px 16px rgba(76, 29, 149, 0.25);
+  }
+  .manifesto .quote { font-size: 22px; line-height: 1.5; font-weight: 300; font-style: italic; }
+  .manifesto .signature { font-size: 13px; opacity: 0.9; margin-top: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+  .capsule {
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    padding: 16px 20px; border-radius: 8px; margin: 16px 0;
+    font-style: italic; font-size: 16px; color: var(--primary-dark);
+  }
+  .capsule strong { font-style: normal; color: var(--primary-dark); }
+
+  /* Objectives */
+  .objectives { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0 8px; }
+  .objective { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .objective-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; margin-bottom: 8px;
+  }
+
+  /* Pillars */
+  .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+  .pillar { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; transition: transform 0.2s; }
+  .pillar:hover { transform: translateY(-2px); border-color: var(--primary); }
+  .pillar-emoji { font-size: 32px; margin-bottom: 6px; }
+  .pillar-name { font-weight: 700; font-size: 14px; color: var(--primary-dark); }
+  .pillar-pts { font-size: 12px; color: var(--text-soft); margin-top: 4px; }
+
+  /* Callouts */
+  .callout { padding: 14px 18px; border-radius: 8px; margin: 16px 0; border-left: 4px solid; }
+  .callout-title { font-weight: 700; margin-bottom: 6px; }
+  .callout-info { background: var(--info-light); border-color: var(--info); color: #1E3A8A; }
+  .callout-success { background: var(--success-light); border-color: var(--success); color: #065F46; }
+  .callout-warning { background: var(--accent-light); border-color: var(--accent); color: #78350F; }
+  .callout-error { background: var(--danger-light); border-color: var(--danger); color: #991B1B; }
+  .callout-pink { background: var(--pink-light); border-color: var(--pink); color: #831843; }
+  .callout-gold { background: var(--gold-light); border-color: var(--gold); color: #78350F; }
+
+  /* Sabia que cards */
+  .didyouknow {
+    background: linear-gradient(135deg, #FFF9E6, #FEF3C7);
+    border: 2px solid var(--accent);
+    border-radius: 12px; padding: 16px 20px; margin: 18px 0;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .didyouknow .icon { font-size: 28px; flex-shrink: 0; }
+  .didyouknow .content { flex: 1; }
+  .didyouknow .label { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .didyouknow .text { font-size: 15px; color: #78350F; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--primary); color: white; padding: 10px; text-align: left; font-weight: 600; }
+  td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #FAFAFA; }
+  .actions-table td.pts { font-weight: 700; color: var(--primary-dark); text-align: center; }
+
+  /* Persona */
+  .persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
+  .persona-card {
+    background: white; border-radius: 12px; padding: 18px;
+    border-top: 4px solid var(--primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .persona-card .emoji { font-size: 36px; }
+  .persona-card .role { font-weight: 700; color: var(--primary-dark); font-size: 16px; margin-top: 4px; }
+  .persona-card .impact { font-size: 14px; color: var(--text-soft); margin-top: 8px; }
+
+  /* Kit cards */
+  .kit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
+  .kit-card {
+    background: white; border-radius: 12px; padding: 18px;
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+  }
+  .kit-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .kit-card .kit-tag {
+    display: inline-block; background: var(--primary); color: white;
+    padding: 3px 10px; border-radius: 4px; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .kit-card .kit-emoji { font-size: 32px; margin-bottom: 6px; }
+  .kit-card .kit-name { font-weight: 700; font-size: 16px; color: var(--primary-dark); margin-bottom: 6px; }
+  .kit-card .kit-rule { font-size: 13px; color: var(--text-soft); margin-bottom: 10px; font-style: italic; }
+  .kit-card ul { margin: 0 0 0 18px; }
+  .kit-card li { font-size: 13px; margin-bottom: 4px; }
+
+  /* Validation / quiz */
+  .validation-card {
+    background: var(--accent-light);
+    border: 2px solid var(--accent);
+    border-radius: 12px; padding: 24px; margin-top: 28px;
+  }
+  .validation-tag {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 4px 10px; border-radius: 4px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .validation-card h3 { color: #78350F; margin-top: 8px !important; }
+  .quiz { margin-top: 16px; }
+  .quiz-question { font-weight: 600; margin-bottom: 12px; font-size: 16px; }
+  .quiz-options { list-style: none; margin: 0 !important; padding: 0; }
+  .quiz-option {
+    background: white; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 8px;
+    cursor: pointer; transition: all 0.2s; font-size: 15px;
+  }
+  .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--primary-light); }
+  .quiz-option.correct { border-color: var(--success); background: var(--success-light); }
+  .quiz-option.incorrect { border-color: var(--danger); background: var(--danger-light); }
+  .quiz-option.disabled { pointer-events: none; opacity: 0.85; }
+  .quiz-feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 6px; font-size: 14px; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: var(--success-light); color: #065F46; }
+  .quiz-feedback.incorrect { background: var(--danger-light); color: #991B1B; }
+
+  /* Mini-quiz (entre conceitos) */
+  .mini-quiz {
+    background: white; border: 2px dashed var(--primary);
+    border-radius: 10px; padding: 14px 18px; margin: 16px 0;
+  }
+  .mini-quiz .mini-tag {
+    display: inline-block; background: var(--primary); color: white;
+    padding: 2px 8px; border-radius: 4px; font-size: 10px;
+    font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Reveal cards */
+  .reveal-card {
+    background: white; border: 2px dashed var(--primary);
+    border-radius: 10px; padding: 16px; margin-bottom: 12px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .reveal-card .reveal-prompt { color: var(--primary-dark); font-weight: 600; font-size: 15px; }
+  .reveal-card .reveal-answer { display: none; margin-top: 12px; font-size: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .reveal-card.revealed { background: var(--primary-light); border-style: solid; }
+  .reveal-card.revealed .reveal-answer { display: block; }
+
+  /* Mistake card */
+  .mistake-card {
+    background: white; border-left: 4px solid var(--danger);
+    border-radius: 8px; padding: 14px 18px; margin: 12px 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .mistake-card .wrong { color: var(--danger); font-weight: 700; margin-bottom: 6px; }
+  .mistake-card .right { color: var(--success); font-weight: 700; margin-top: 8px; }
+
+  /* Roleplay card */
+  .roleplay-card {
+    background: var(--info-light); border-left: 4px solid var(--info);
+    border-radius: 8px; padding: 14px 18px; margin: 12px 0;
+  }
+  .roleplay-line { font-style: italic; color: #1E3A8A; }
+  .role-tag {
+    display: inline-block; background: var(--info); color: white;
+    padding: 3px 8px; border-radius: 4px; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Calculator */
+  .calculator {
+    background: white; border: 2px solid var(--primary);
+    border-radius: 12px; padding: 22px; margin: 18px 0;
+  }
+  .calculator h4 { color: var(--primary-dark); margin-top: 0 !important; }
+  .calc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 14px 0; }
+  .calc-input { display: flex; flex-direction: column; }
+  .calc-input label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .calc-input input, .calc-input select {
+    padding: 10px 12px; border: 2px solid var(--border);
+    border-radius: 6px; font-size: 14px; font-family: inherit;
+  }
+  .calc-input input:focus, .calc-input select:focus { outline: none; border-color: var(--primary); }
+  .calc-output {
+    background: var(--primary-light); border-radius: 8px;
+    padding: 14px 16px; margin-top: 12px; font-size: 14px;
+  }
+  .calc-output strong { color: var(--primary-dark); font-size: 16px; }
+  .calc-output .row { display: flex; justify-content: space-between; padding: 4px 0; }
+
+  /* Buttons */
+  .btn {
+    background: var(--primary); color: white; border: none;
+    padding: 12px 22px; border-radius: 8px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s; display: inline-block;
+    text-decoration: none; font-family: inherit;
+  }
+  .btn:hover { background: var(--primary-dark); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+  .btn-secondary:hover { background: var(--primary-light); }
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .nav-buttons .btn { min-width: 140px; }
+
+  /* Final score */
+  .score-display {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 36px; border-radius: 14px;
+    text-align: center; margin-top: 28px;
+  }
+  .score-number { font-size: 72px; font-weight: 700; line-height: 1; }
+  .score-label { font-size: 18px; opacity: 0.95; margin-top: 8px; }
+  .result-actions { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+  .result-actions .btn { flex: 1; min-width: 220px; }
+
+  /* ID overlay */
+  .id-overlay {
+    position: fixed; inset: 0;
+    background: rgba(76, 29, 149, 0.85); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .id-card {
+    background: white; border-radius: 16px;
+    max-width: 480px; width: 100%; padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .id-card h1 { color: var(--primary); font-size: 24px; margin-bottom: 8px; }
+  .id-card .subtitle { color: var(--text-soft); font-size: 14px; margin-bottom: 22px; }
+  .id-field { margin-bottom: 14px; }
+  .id-field label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .id-field input {
+    width: 100%; padding: 12px 14px;
+    border: 2px solid var(--border); border-radius: 8px;
+    font-size: 15px; font-family: inherit; transition: border-color 0.2s;
+  }
+  .id-field input:focus { outline: none; border-color: var(--primary); }
+  .id-field .error-msg { color: var(--danger); font-size: 12px; margin-top: 4px; display: none; }
+  .id-field.has-error input { border-color: var(--danger); }
+  .id-field.has-error .error-msg { display: block; }
+  #idStartBtn { width: 100%; margin-top: 8px; padding: 14px; font-size: 16px; }
+
+  /* ============================================================ */
+  /* SIMULADOR WHATSAPP */
+  /* ============================================================ */
+  .simulator-intro {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white; padding: 24px; border-radius: 14px;
+    margin-bottom: 18px;
+  }
+  .simulator-intro h3 { color: white !important; margin-top: 0 !important; }
+  .simulator-intro p { font-size: 15px; opacity: 0.95; margin-bottom: 0; }
+
+  .scenario-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin: 18px 0; }
+  .scenario-card {
+    background: white; border: 2px solid var(--border);
+    border-radius: 10px; padding: 16px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .scenario-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .scenario-card.completed { background: var(--success-light); border-color: var(--success); }
+  .scenario-card.interrupted { background: var(--danger-light); border-color: var(--danger); }
+  .scenario-card.interrupted .scenario-status { color: var(--danger) !important; }
+  .scenario-card .scenario-num { font-size: 11px; color: var(--text-soft); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .scenario-card .scenario-title { font-weight: 700; color: var(--primary-dark); margin: 4px 0; font-size: 15px; }
+  .scenario-card .scenario-desc { font-size: 13px; color: var(--text-soft); }
+  .scenario-card .scenario-status { font-size: 12px; margin-top: 6px; font-weight: 600; }
+  .scenario-card.completed .scenario-status { color: var(--success); }
+
+  .wpp-frame {
+    max-width: 420px; margin: 18px auto;
+    background: #111; border-radius: 32px; padding: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .wpp-screen {
+    background: var(--wpp-bg);
+    border-radius: 22px; overflow: hidden;
+    height: 580px; display: flex; flex-direction: column;
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.15) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .wpp-header {
+    background: var(--wpp-header);
+    color: white; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .wpp-back { font-size: 20px; opacity: 0.8; }
+  .wpp-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .wpp-contact { flex: 1; min-width: 0; }
+  .wpp-contact-name { font-size: 15px; font-weight: 500; line-height: 1.2; }
+  .wpp-contact-status { font-size: 12px; opacity: 0.85; }
+  .wpp-actions { display: flex; gap: 16px; opacity: 0.9; font-size: 16px; }
+
+  .wpp-messages {
+    flex: 1; overflow-y: auto;
+    padding: 12px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .wpp-msg {
+    max-width: 78%; padding: 7px 10px 5px;
+    border-radius: 8px; font-size: 14px; line-height: 1.4;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    position: relative;
+    animation: msgIn 0.3s ease-out;
+  }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .wpp-msg.school {
+    background: var(--wpp-school-bubble);
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+  .wpp-msg.cs {
+    background: var(--wpp-cs-bubble);
+    align-self: flex-end;
+    border-top-right-radius: 0;
+  }
+  .wpp-msg-time {
+    font-size: 10px; color: var(--wpp-time);
+    text-align: right; margin-top: 2px;
+    display: flex; align-items: center; justify-content: flex-end; gap: 3px;
+  }
+  .wpp-msg.cs .wpp-msg-time::after { content: '✓✓'; color: #4FC3F7; }
+  .wpp-typing {
+    background: var(--wpp-school-bubble);
+    align-self: flex-start;
+    padding: 10px 14px; border-radius: 8px;
+    border-top-left-radius: 0;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+  }
+  .wpp-typing-dots {
+    display: inline-flex; gap: 3px;
+  }
+  .wpp-typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--wpp-time);
+    animation: typing 1.4s infinite;
+  }
+  .wpp-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .wpp-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1); } }
+
+  .wpp-input-area {
+    background: #F0F2F5; padding: 8px 10px;
+    display: flex; gap: 8px; align-items: center;
+    flex-shrink: 0;
+  }
+  .wpp-input-fake {
+    flex: 1; background: white; border-radius: 22px;
+    padding: 9px 14px; font-size: 14px; color: var(--text-soft);
+    font-style: italic;
+  }
+  .wpp-send {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--wpp-header);
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  .choices-panel {
+    margin: 16px 0; padding: 20px;
+    background: white; border: 2px solid var(--primary);
+    border-radius: 12px;
+  }
+  .choices-panel .choices-label {
+    font-weight: 700; color: var(--primary-dark); margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .choice-btn {
+    display: block; width: 100%; text-align: left;
+    background: white; border: 2px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; margin-bottom: 10px;
+    font-size: 14.5px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit; color: var(--text);
+    line-height: 1.4;
+  }
+  .choice-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+  .choice-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .turn-feedback {
+    margin-top: 12px; padding: 14px 18px; border-radius: 10px;
+    border-left: 4px solid;
+    animation: msgIn 0.4s ease-out;
+  }
+  .turn-feedback.green { background: var(--success-light); border-color: var(--success); color: #065F46; }
+  .turn-feedback.yellow { background: var(--accent-light); border-color: var(--accent); color: #78350F; }
+  .turn-feedback.red { background: var(--danger-light); border-color: var(--danger); color: #991B1B; }
+  .turn-feedback-label { font-weight: 700; font-size: 13px; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .turn-feedback-text { font-size: 14.5px; }
+
+  .scenario-result {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 28px; border-radius: 14px;
+    text-align: center; margin: 18px auto;
+    max-width: 480px;
+  }
+  .scenario-result .result-stars { font-size: 36px; margin-bottom: 8px; }
+  .scenario-result .result-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .scenario-result .result-pct { font-size: 16px; opacity: 0.95; margin-bottom: 14px; }
+  .scenario-result .btn { background: white; color: var(--primary); }
+  .scenario-result .btn:hover { background: rgba(255,255,255,0.9); }
+
+  @media (max-width: 760px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="id-overlay" id="idOverlay">
+  <div class="id-card">
+    <h1>✨ Antes de começar</h1>
+    <p class="subtitle">Para registrar sua conclusão e enviar seu aproveitamento, precisamos da sua identificação:</p>
+    <div class="id-field">
+      <label for="idName">Nome completo *</label>
+      <input type="text" id="idName" placeholder="Ex: Maria Silva" autocomplete="name">
+      <div class="error-msg">Preencha seu nome completo (nome e sobrenome).</div>
+    </div>
+    <div class="id-field">
+      <label for="idEmail">E-mail corporativo *</label>
+      <input type="email" id="idEmail" placeholder="seu.nome@estantemagica.com.br" autocomplete="email">
+      <div class="error-msg">Preencha um e-mail válido.</div>
+    </div>
+    <div class="id-field">
+      <label for="idTeam">Time / squad *</label>
+      <input type="text" id="idTeam" placeholder="Ex: CS — Squad 1">
+      <div class="error-msg">Preencha seu time.</div>
+    </div>
+    <div class="id-field">
+      <label for="idLeader">Líder direto *</label>
+      <input type="text" id="idLeader" placeholder="Nome do seu líder">
+      <div class="error-msg">Preencha o nome do líder.</div>
+    </div>
+    <button class="btn" id="idStartBtn">Iniciar treinamento →</button>
+  </div>
+</div>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>✨ Clube Estante Mágica</h1>
+    <p>Treinamento CS · Ciclo 2026</p>
+  </div>
+  <div class="user-badge" id="userBadge" style="display:none">
+    <strong id="userName">—</strong>
+    <span class="small" id="userMeta">—</span>
+  </div>
+  <div class="progress-container">
+    <div class="progress-label">
+      <span>Seu progresso</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <ul class="nav-list" id="navList"></ul>
+</aside>
+<main class="main" id="main"></main>
+
+<script>
+const ADMIN_EMAIL = 'amanda.pimentel@estantemagica.com.br';
+
+window.SIMULATOR_SCENARIOS = [
+  {
+    id: 'sc1',
+    title: 'Primeira apresentação do Clube',
+    description: 'Coordenadora Marina — escola nova, início do projeto feito, primeira conversa estendida',
+    avatar: 'M',
+    contactName: 'Marina · Coord. Escola Sementinha',
+    turns: [
+      {
+        school: 'Oi! Tudo bem? Recebi um e-mail falando sobre um tal de "Clube Estante Mágica"… mas confesso que não entendi muito bem. Pode me explicar?',
+        choices: [
+          {
+            text: 'Oi Marina! É super simples — é um programa onde vocês acumulam pontos pra ganhar prêmios.',
+            level: 'yellow',
+            reaction: 'Hmm, prêmios? Pensei que fosse algo mais especial… mas tá, conta mais.',
+            feedback: 'Funciona, mas é raso demais — "programa de prêmios" rebaixa o conceito. O Clube é sobre reconhecimento, não troca utilitária. Falta a emoção.'
+          },
+          {
+            text: 'Oi Marina, tudo ótimo! 💜 O Clube é a nossa forma nova de reconhecer o esforço da escola durante o ano todo. Cada ação que vocês fazem no projeto vira pontos — e os pontos viram presentes reais que enriquecem o evento e valorizam quem faz acontecer. Posso te contar como funciona em 5 min?',
+            level: 'green',
+            reaction: 'Aaa que linda forma de explicar! Já gostei. Vamos sim, me conta tudo. 💜',
+            feedback: 'Perfeito! Você abriu com emoção, posicionou como "forma nova de reconhecer" (sem comparar), conectou ação→ponto→presente real, e fechou com pacto de tempo.'
+          },
+          {
+            text: 'Marina, é um sistema novo de fidelidade que a EM lançou esse ano. Antes era diferente, agora tem pontos.',
+            level: 'red',
+            reaction: 'Hmm, fidelidade? E como era antes? Agora fiquei mais confusa…',
+            feedback: 'Erro grande: "sistema de fidelidade" rebaixa. E "antes era diferente" abre porta pra comparação com kits anteriores — o que dispara objeções. Foco no novo, sempre.'
+          }
+        ]
+      },
+      {
+        school: 'Aaa que legal! E quantos pontos a gente já tem? Faz tempo que estamos com vocês esse ano.',
+        choices: [
+          {
+            text: 'Boa pergunta! Olhei aqui no nosso sistema: vocês já estão com 280 pts (cronograma, formato e tema do projeto já fechados) — faltam só 60 pts pra destravar o Kit Evento! E o cadastro de professoras também já dá +65 pts. Bora fechar isso essa semana?',
+            level: 'green',
+            reaction: 'Aaa que demais! Já temos tudo isso? 🎉 Vamos sim, me ajuda a fechar.',
+            feedback: 'Excelente! Você consultou o sistema na hora, celebrou o já conquistado, mostrou o próximo marco com clareza, e propôs ação concreta.'
+          },
+          {
+            text: 'Vou conferir no sistema e te mando o saldo!',
+            level: 'yellow',
+            reaction: 'Tá, beleza, aguardo então.',
+            feedback: 'OK mas perde uma oportunidade. Você poderia já trazer o saldo aproximado e celebrar — esse é o momento de gerar engajamento.'
+          },
+          {
+            text: 'Não sei ainda, depois te falo. Por enquanto foca em vender que os pontos vêm depois.',
+            level: 'red',
+            reaction: 'Hmm, achei estranho… era só uma pergunta pra entender.',
+            feedback: 'Erro: você é o canal de comunicação dos pontos. "Depois te falo" quebra a regra de ouro (mencionar saldo em todo contato) e passa imagem de descaso.'
+          }
+        ]
+      },
+      {
+        school: 'Entendi! E o que eu ganho exatamente com esses pontos? É desconto?',
+        choices: [
+          {
+            text: 'Sim, é tipo um desconto que vocês usam nos materiais do EA.',
+            level: 'red',
+            reaction: 'Ah, entendi… então é desconto.',
+            feedback: 'Erro: o Clube NÃO é desconto. É reconhecimento por meio de presentes reais. Falar "desconto" rebaixa o programa e cria expectativa errada.'
+          },
+          {
+            text: 'É tipo brindes que vão junto do kit.',
+            level: 'yellow',
+            reaction: 'Hmm, tá… brindes. Mas tipo o quê?',
+            feedback: 'Funciona, mas "brindes" não captura o espírito de reconhecimento. Faltou conectar com pessoas (professoras, alunos) e com o evento.'
+          },
+          {
+            text: 'Não é desconto, é reconhecimento real. Os pontos viram presentes que enriquecem o evento: certificado pra cada professora, plaquinhas pra foto, lambe-lambe, presentes pras professoras, placa de parceria pra escola… vai depender de quanto vocês acumularem. Que tal eu te mostrar o catálogo numa chamada de 15 min?',
+            level: 'green',
+            reaction: 'Aaa que beleza! Adorei essa ideia. Pode marcar essa chamada sim! 💜',
+            feedback: 'Perfeito! Desfez o equívoco com firmeza, listou exemplos concretos e emocionais, e propôs ação concreta pra avançar.'
+          }
+        ]
+      },
+      {
+        school: 'Adorei! E quando vocês mandam isso pra gente?',
+        choices: [
+          {
+            text: 'Vai uma entrega separada um pouco antes do evento.',
+            level: 'red',
+            reaction: 'Hmm, vai ter mais uma entrega? Quando exatamente? Fiquei preocupada.',
+            feedback: 'Erro crítico: cria expectativa errada. O presente vai JUNTO com os livros, em caixa separada — mesmo envio. "Entrega separada antes do evento" não existe.'
+          },
+          {
+            text: 'Mando junto com os livros — em caixa separada, mesmo envio, sem espera. Pra a gente fechar a composição do kit, vou te chamar logo depois do fechamento de compras pra escolhermos juntas, ok?',
+            level: 'green',
+            reaction: 'Perfeito! Vai chegar tudo junto, sem stress. Combinado! 💜',
+            feedback: 'Perfeito! Trouxe a informação central (caixa separada, mesmo envio, sem espera), explicou os marcos do envio e do fechamento de compras, e já agendou o próximo passo.'
+          },
+          {
+            text: 'Você vai ver! Mando quando estiver pronto.',
+            level: 'yellow',
+            reaction: 'Tá… fiquei meio insegura sobre os prazos, mas tudo bem.',
+            feedback: 'Vago. A coordenadora precisa entender o fluxo pra confiar no processo. Seja específica sobre como e quando chega.'
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'sc2',
+    title: '"O Kit Mágico não existe mais?"',
+    description: 'Coordenadora Beatriz — já viveu ciclo anterior, ouviu falar do Clube e ficou na dúvida',
+    avatar: 'B',
+    contactName: 'Bia · Coord. Escola Bem-Te-Vi',
+    turns: [
+      {
+        school: 'Oi! Gostei muito desse Clube novo, mas confesso uma coisa: quando assumi a coordenação esse ano, ouvi de uma colega da rede que o Kit Mágico que vocês entregavam antes não existe mais. É isso mesmo? :(',
+        choices: [
+          {
+            text: 'Não, Bia! O Kit Mágico continua existindo, prometo! O que mudou é a forma como ele é montado: agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra deixar o evento ainda mais a cara da escola de vocês.',
+            level: 'green',
+            reaction: 'Aaaaaa que alívio! 😍 Que bom saber que continua!',
+            feedback: 'Perfeito! Reasseguração imediata + esclarecimento simples. Não comparou com nada, focou no que ela ganha agora (personalização).'
+          },
+          {
+            text: 'Olha, mudou bastante coisa. Saíram alguns itens do kit antigo, mas adicionamos um sistema de pontos.',
+            level: 'red',
+            reaction: 'Como assim saíram itens?? Aaah, fiquei triste agora… 😟',
+            feedback: 'Erro grave: "saíram alguns itens" dispara exatamente a objeção que a Bia tava tentando confirmar. Você joga lenha na fogueira.'
+          },
+          {
+            text: 'Continua sim, é só uma forma diferente agora.',
+            level: 'yellow',
+            reaction: 'Hmm, ok… mas continua exatamente como antes ou mudou?',
+            feedback: 'OK mas frio. Bia está ansiosa — ela precisa de uma resposta acolhedora, não só técnica. Explica mais.'
+          }
+        ]
+      },
+      {
+        school: 'Aí que alívio! Ano passado a gente AMOU o lambe-lambe, os displays pros alunos, o certificado das profs… vai continuar tendo?',
+        choices: [
+          {
+            text: 'A maior parte continua, sim.',
+            level: 'yellow',
+            reaction: 'Hmm, mas quais especificamente? Quero saber pra me preparar.',
+            feedback: 'Vago demais. Quando a escola lista os itens emocionados, você confirma item por item — isso constrói confiança.'
+          },
+          {
+            text: 'Continua, mas vocês podem trocar se quiserem agora com o Clube.',
+            level: 'red',
+            reaction: 'Espera, não quero trocar nada! Eu só quero saber se o que a gente amou continua…',
+            feedback: 'Erro: a Bia não pediu pra trocar, ela quer SABER se continua. Sugerir troca preventivamente confunde. E ainda incentiva troca do Kit Evento, que não é o que queremos.'
+          },
+          {
+            text: 'Tudo isso continua! Lambe-lambe, displays, certificado da educadora, plaquinha de foto, ponteira estrela — todos fazem parte do Kit Evento. E o Kit Evento é destravado automaticamente assim que vocês completam as primeiras ações do projeto (que vocês já fizeram). 💜',
+            level: 'green',
+            reaction: 'Aaaaa que delícia! Já me sinto tranquila. Adorei. 💜',
+            feedback: 'Excelente! Confirmou item por item (gerando alívio), explicou o "como" do destravamento, e celebrou o que ela já fez.'
+          }
+        ]
+      },
+      {
+        school: 'Aaaa que bom, fiquei muito feliz. E agora com o Clube, o que muda na prática pra escola?',
+        choices: [
+          {
+            text: 'Muda que vocês ganham mais coisas! Antes era só o kit padrão, agora vocês acumulam pontos extras pra adicionar itens.',
+            level: 'yellow',
+            reaction: 'Hmm… mas o antigo era ruim? Não entendi essa comparação.',
+            feedback: 'Comparativo desnecessário. A regra de ouro é foco no novo. Apresenta o Clube como ele é, não em comparação.'
+          },
+          {
+            text: 'O que muda é lindo: agora vocês têm visibilidade do progresso ao longo do ano. Cada cadastro de professora, cada ação de engajamento, cada meta de venda — vira pontos, vira reconhecimento concreto. E vocês escolhem o que vai dentro do kit pra personalizar a experiência do EA. É a nossa forma de dizer obrigada o ano inteiro, não só no evento.',
+            level: 'green',
+            reaction: 'Que coisa mais bonita. Estou muito empolgada com isso! 💜',
+            feedback: 'Perfeito! Linguagem emocional, foco no que ela ganha de NOVO (visibilidade, escolha, reconhecimento contínuo), sem comparação com o antigo.'
+          },
+          {
+            text: 'Honestamente, a operação por trás é a mesma. O Clube é mais uma camada de marketing.',
+            level: 'red',
+            reaction: 'Hmm… então é mais do mesmo? Achei que era algo especial. 😕',
+            feedback: 'Erro catastrófico: NUNCA rebaixa o programa. Você é o porta-voz da magia, não a pessoa que entrega cinismo.'
+          }
+        ]
+      },
+      {
+        school: 'Perfeito! Já estou com saudade do evento desse ano. Você é demais, viu?',
+        choices: [
+          {
+            text: 'Obrigada! Te falo depois.',
+            level: 'yellow',
+            reaction: 'Tá, te aguardo então. [tom leve]',
+            feedback: 'Não erra, mas perde a chance de aprofundar. Bia te abriu o coração — você poderia ancorar no saldo, mostrar o próximo marco, fortalecer o vínculo.'
+          },
+          {
+            text: 'Hahaha imagina, é só o meu trabalho.',
+            level: 'red',
+            reaction: 'Ah… ok. [um pouco constrangida]',
+            feedback: 'Errado: subestima o seu papel. Você É o agente do MaaS. Receba o reconhecimento com profissionalismo e devolve aprofundando o relacionamento.'
+          },
+          {
+            text: 'Obrigada, Bia! 💜 É genuíno o que a gente sente pelo trabalho de vocês também. Você está com 470 pts no Clube já. Tô animada pra gente fechar essa jornada com chave de ouro juntas. Te falo na semana que vem com o próximo marco?',
+            level: 'green',
+            reaction: 'Aaaaa que carinho! Vamos sim. Combinado! 💜',
+            feedback: 'Perfeito! Reciprocidade genuína, ancorou no saldo (regra de ouro), agendou próximo contato. Relacionamento fortalecido.'
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'sc3',
+    title: '"Vi a placa de acrílico em outra escola, posso?"',
+    description: 'Coordenadora Ana — viu post de outra escola no Insta, quer o mesmo',
+    avatar: 'A',
+    contactName: 'Ana · Coord. Escola Girassol',
+    turns: [
+      {
+        school: 'Oi! Vi uma escola amiga postando uma placa de acrílico linda de "parceria Estante Mágica" na recepção dela. Quero uma também! Posso?',
+        choices: [
+          {
+            text: 'A placa de acrílico é só pra escolas R$10k pra cima, infelizmente.',
+            level: 'red',
+            reaction: 'Ah, que pena… pensei que poderia ter pra escola da gente também. 😔',
+            feedback: 'Erro: a placa está disponível pra TODAS as faixas. Quem decide é o saldo. Você violou a premissa de "todos veem tudo" e gerou frustração desnecessária.'
+          },
+          {
+            text: 'Acho que sim, mas tenho que checar com meu líder.',
+            level: 'yellow',
+            reaction: 'Hmm, ok… aguardo então. Mas dá pra ter uma resposta logo?',
+            feedback: 'Funciona, mas é hesitação desnecessária. Você sabe a regra — a placa está no catálogo, basta consultar o saldo da escola. Confiança no próprio repertório.'
+          },
+          {
+            text: 'Pode sim, Ana! A placa de acrílico está disponível pra todas as escolas — está no nosso catálogo. Deixa eu olhar aqui quanto custa em pontos pra faixa de vocês e ver se cabe no saldo atual. Vai aí, vou simular agora!',
+            level: 'green',
+            reaction: 'Aaaa que ótimo! Já fiquei animada. 💜',
+            feedback: 'Perfeito! Não nega, não exclui — confirma disponibilidade, traduz pro contexto da escola dela (saldo + faixa), e age na hora.'
+          }
+        ]
+      },
+      {
+        school: 'Aaa que legal! E quanto custa?',
+        choices: [
+          {
+            text: 'A escola de vocês está na faixa R$10k–20k. Nessa faixa, a placa de acrílico custa 190 pts. Vocês estão com 380 pts hoje — então cabe. Sobram 190 pts pra adicionar outras coisas, tipo uma playlist personalizada da turma ou um post no nosso blog destacando a escola. Quer que eu te mostre?',
+            level: 'green',
+            reaction: 'Aaaa que demais! Não imaginava que tinha tantas opções. Quero ver sim!',
+            feedback: 'Perfeito! Resposta específica, com números reais, mostra que cabe e ainda traz opções de uso pro restante. Generosa e curadora.'
+          },
+          {
+            text: 'Custa uns 200 pts mais ou menos, acho.',
+            level: 'yellow',
+            reaction: 'Hmm, ok… e cabe no nosso saldo? Você consegue olhar certinho?',
+            feedback: 'Você está perto, mas vago demais e impreciso. Quando responder sobre custos, consulte a tabela e seja exata. Confiança vem da precisão.'
+          },
+          {
+            text: 'É um item caro em pontos, vocês ainda precisam acumular bastante.',
+            level: 'red',
+            reaction: 'Ah, que pena, achei que daria. 😔',
+            feedback: 'Erro: você não conferiu o saldo dela antes de responder. Pode estar criando ansiedade desnecessária. Sempre responda com base nos números reais da escola.'
+          }
+        ]
+      },
+      {
+        school: 'Demais! E é só pedir que vocês mandam?',
+        choices: [
+          {
+            text: 'É só pedir mesmo, vai junto.',
+            level: 'yellow',
+            reaction: 'Tá… mas e como funciona exatamente? Quero entender pra organizar aqui.',
+            feedback: 'OK mas perde a oportunidade de educar sobre o fluxo. Coordenadora nova precisa entender o "como" pra confiar. Detalhe.'
+          },
+          {
+            text: 'É exatamente isso. Quando a gente fechar a composição do kit no fim do ciclo (após o fechamento de compras), eu já registro a placa e ela vai junto com os livros, em caixa separada do envio, sem espera. Tá combinado?',
+            level: 'green',
+            reaction: 'Adorei, tudo certinho! 💜 Combinado!',
+            feedback: 'Perfeito! Explicou o fluxo completo (composição pós-fechamento de compras, envio junto com livros, caixa separada). Conduz com confiança e fecha o acordo.'
+          },
+          {
+            text: 'Sim, mas depende do estoque.',
+            level: 'red',
+            reaction: 'Hmm, estoque? Fiquei meio insegura agora… vai que não tem? 😟',
+            feedback: 'Erro: você não tem essa informação e isso não é parte do nosso processo padrão. Não invente caveats — gera ansiedade.'
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'sc4',
+    title: 'Data limite chegando e escola sumiu',
+    description: 'Coordenadora Carla — não responde há 8 dias, data limite pra fechar o pedido é em 3 dias',
+    avatar: 'C',
+    contactName: 'Carla · Coord. Escola Trevo',
+    turns: [
+      {
+        school: '[Você está iniciando o contato — Carla não responde há 8 dias e a data limite pra fechar o pedido do Clube é em 3 dias]',
+        choices: [
+          {
+            text: 'Carla! Tudo bem por aí? 💜 Sumi tentando te encontrar essa semana. Você tá com 620 pts no Clube e a data limite pra fechar o pedido é em 3 dias — é a janela pra escolhermos a composição do kit. Tô com 3 sugestões já pensadas pra escola de vocês. Posso te ligar em 15 min hoje?',
+            level: 'green',
+            reaction: 'Aiii, que carinho! Pode sim, me liga sim por favor! 💜',
+            feedback: 'Excelente! Postura de cuidado ("tudo bem por aí?"), mencionou o saldo (regra de ouro), explicou o porquê do prazo, ofereceu solução pronta, propôs ação concreta com janela curta.'
+          },
+          {
+            text: 'Oi Carla, lembrei aqui de você. Quando der, me responde.',
+            level: 'yellow',
+            reaction: 'Ah, oi! Tô atolada aqui… vou tentar responder logo.',
+            feedback: 'Genérico demais pra urgência. Em 3 dias do prazo, você precisa puxar pra ação — sem agressividade, mas com clareza do que está em jogo.'
+          },
+          {
+            text: 'Carla, cadê vc?? Já são 8 dias sem resposta. A data limite tá em 3 dias. Se vc não responder, vai sem os extras do kit.',
+            level: 'red',
+            reaction: 'Nossa… achei essa mensagem meio bruta. Tô numa loucura aqui, ó.',
+            feedback: 'Erro grave: tom de cobrança e ameaça. Vai gerar resistência e dor na relação. Lembrar: postura de acolhimento e presença, não de cobrança.'
+          }
+        ]
+      },
+      {
+        school: 'Aiii desculpa Mariana, semana caótica aqui! Tô atrás de prof nova, é uma loucura. O que precisa de mim?',
+        choices: [
+          {
+            text: 'Precisa fechar o kit. Sem isso não dá pra mandar.',
+            level: 'yellow',
+            reaction: 'Tá, ok… mas o que exatamente preciso fazer?',
+            feedback: 'Curto demais e sem empatia. Carla acabou de te contar que tá numa correria — recebê-la com calor antes de avançar com a tarefa.'
+          },
+          {
+            text: 'Imagina, Carla! Vida de coordenadora é sempre uma corrida. Olha, o que precisa é simples: você confirmar a composição final do kit. Eu já montei uma sugestão considerando os 620 pts de vocês — Kit Evento garantido + Kit Professor pras 4 profs + placa de acrílico de parceria. Topa que eu te mando um print agora pra você confirmar?',
+            level: 'green',
+            reaction: 'Aaaa que demais, manda sim por favor! Adorei vc já ter pensado pra mim.',
+            feedback: 'Perfeito! Empatia com a situação dela, conexão humana, depois solução pronta (você já trabalhou pra ela), e proposta de ação fácil — só confirmar.'
+          },
+          {
+            text: 'Precisa que vc escolha tudo do zero — manda os itens que quer.',
+            level: 'red',
+            reaction: 'Nossa… é muita coisa pra eu ver agora. Não tem como vc me ajudar a montar?',
+            feedback: 'Erro: você joga a decisão de volta pra ela, que já tá sobrecarregada. Como CS, você facilita o caminho. Traga sugestão pronta.'
+          }
+        ]
+      },
+      {
+        school: 'Aaa que maravilha, manda sim por favor!',
+        choices: [
+          {
+            text: 'Beleza, mando.',
+            level: 'yellow',
+            reaction: 'Tá, te aguardo então.',
+            feedback: 'OK mas perde a oportunidade de instalar o fechamento. Quando vc envia, ela pode ficar olhando indefinidamente. Defina o caminho de resposta.'
+          },
+          {
+            text: 'Mando depois.',
+            level: 'red',
+            reaction: 'Ah… ok… [com receio, achei que era urgente]',
+            feedback: 'Errado: você acabou de prometer ação imediata. A data limite é em 3 dias. "Depois" é abrir margem pra atraso. Aqui é hora de fechar com clareza.'
+          },
+          {
+            text: 'Tá vindo! Mando em 10 min com a lista detalhada e um cálculo dos pontos. Se vc topar tudo, é só me responder "tá bom" que eu já fecho no nosso sistema hoje, antes da data limite. E olha — qualquer ajuste, dá pra fazer agora ainda, só me dizer.',
+            level: 'green',
+            reaction: 'Perfeito, aguardo! 💜 Já estou tranquila.',
+            feedback: 'Perfeito! Compromisso claro de tempo (10 min), próximos passos definidos, ofereceu flexibilidade pra ajustes. Conduz pelo conforto.'
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'sc5',
+    title: 'Escola pede pra trocar o Kit Evento',
+    description: 'Coordenadora Renata — quer trocar itens do Kit Evento por outros',
+    avatar: 'R',
+    contactName: 'Renata · Coord. Escola Aurora',
+    turns: [
+      {
+        school: 'Oi! Olhei aqui o Kit Evento e queria saber se a gente pode trocar o lambe-lambe e os displays por outras coisas equivalentes em pontos. Achei que outros itens combinam mais com a estética que a gente quer pro evento.',
+        choices: [
+          {
+            text: 'Não vamos incentivar essa troca, Renata, porque o Kit Evento foi pensado especificamente pra entregar uma experiência completa no dia do EA — cada item tem um papel emocional. Mas se for muito importante pra vocês, dá pra fazer: eu abro um chamado pro time de tecnologia e a gente ajusta. Antes, posso te explicar o que cada item do kit faz no dia do evento? Talvez você queira manter alguma coisa.',
+            level: 'green',
+            reaction: 'Aaaa que interessante! Não sabia desse fluxo. Vou querer entender sim, conta!',
+            feedback: 'Perfeito! Sincera sobre o "não incentivamos" + explicou o porquê + ofereceu o caminho oficial (fluxo de exceção) + tentou resgatar a escolha original com empatia. Domínio total.'
+          },
+          {
+            text: 'Olha, Renata, é proibido. Kit Evento é fixo, não tem como mudar.',
+            level: 'red',
+            reaction: 'Nossa, achei muito rígido isso… achei que tinha jeito.',
+            feedback: 'Erro: não é proibido. É possível via fluxo de exceção. Negar de cara fecha a porta e perde a confiança.'
+          },
+          {
+            text: 'Pode trocar tudo sim, sem problema! Te ajudo a escolher.',
+            level: 'red',
+            reaction: 'Aaa que ótimo! Mas espera, é mesmo? Sem critério nenhum? Quero entender.',
+            feedback: 'Erro: você está incentivando o que a gente NÃO quer incentivar. O Kit Evento foi pensado como experiência completa do dia. Trocar sem questionar tira a magia do evento.'
+          }
+        ]
+      },
+      {
+        school: 'Eu não sabia que tinha esse fluxo, achei que era impossível! Mas conta sim, o que cada item faz?',
+        choices: [
+          {
+            text: 'São só uns objetos do kit padrão, nada demais.',
+            level: 'red',
+            reaction: 'Hmm… então não tem tanta importância assim? Tá, então quero trocar mesmo.',
+            feedback: 'Erro catastrófico: você é o porta-voz do MaaS. Cada item tem propósito emocional e o seu trabalho é traduzir isso pra coordenadora.'
+          },
+          {
+            text: 'Vou listar rapidinho! 📋 Lambe-lambe — vai na entrada, é a foto que toda família tira. Display de mesa — cada aluno tem o seu, com o nome dele. Plaquinha de foto — pra prof segurar nas fotos coletivas. Ponteira estrela — cada criança ganha uma pra levar pra casa. Certificado da educadora — entrega solene no fim do evento. Cada item gera um momento. É por isso a gente não incentiva trocar.',
+            level: 'green',
+            reaction: 'Aaaaa que lindo! Cada coisa tem propósito. Agora entendi. 💜',
+            feedback: 'Perfeito! Cada item com função emocional clara. Você humanizou cada peça do kit — agora a Renata vai pensar duas vezes antes de tirar algo. Você é curadora, não vendedora.'
+          },
+          {
+            text: 'Te mando depois uma lista por escrito.',
+            level: 'yellow',
+            reaction: 'Tá, aguardo então. Mas se der pra me adiantar agora qualquer coisa…',
+            feedback: 'Você teve a oportunidade de educar agora — e procrastinou. Renata tá engajada, atenta. Aproveite o momento.'
+          }
+        ]
+      },
+      {
+        school: 'Nossa, agora que vc explicou eu vejo como cada coisa importa. Acho que vou manter o Kit Evento original e usar os pontos extras pra adicionar mais coisas. O que vc sugere?',
+        choices: [
+          {
+            text: 'Vc escolhe! Olha o catálogo e me fala.',
+            level: 'red',
+            reaction: 'Ah… mas vc não vai me ajudar a escolher? Achei que ia ter uma curadoria.',
+            feedback: 'Erro: você é a CS. Sua função é curar, não jogar a decisão de volta. Renata acabou de te confiar a escolha — receba isso com profissionalismo.'
+          },
+          {
+            text: 'Que ótima decisão! 💜 Olhando o saldo de vocês (720 pts, sobram 380 depois do Kit Evento), eu sugiro: Kit Professor pras 3 profs (excelente reconhecimento pessoal) + uma playlist personalizada da turma. Total: 320 pts. Sobram 60 pts pra um lambe-lambe extra ou um post no blog da Estante Mágica. O que faz mais sentido pra vocês?',
+            level: 'green',
+            reaction: 'Aaaa adorei! Vou querer exatamente isso. Você é demais. 💜',
+            feedback: 'Perfeito! Validou a decisão dela, ancorou no saldo, montou uma proposta concreta com explicação de cada escolha, deixou margem pra ela escolher os detalhes finais. Curadoria de verdade.'
+          },
+          {
+            text: 'Sugiro adicionar a placa de acrílico, é a mais bonita.',
+            level: 'yellow',
+            reaction: 'Hmm, mas é o que cabe no nosso saldo? E é o que faz mais sentido pra escola?',
+            feedback: 'Não é errado, mas é raso. Você sugeriu um item sem considerar saldo, perfil da escola ou o que ela já tem. Curadoria é considerar o todo.'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const modules = [{
+  id: 'welcome', section: 'PARTE I — ENTENDA O CLUBE', title: 'Boas-vindas', duration: '5 min',
+  html: `
+    <div class="welcome-hero">
+      <h1>✨ Boas-vindas ao Clube Estante Mágica</h1>
+      <p>Esse treinamento é pra você — que é o agente da magia. Quem traduz, no dia a dia, o que a Estante Mágica entrega de mais bonito no mundo: uma criança autora de livro de verdade. Em 70 minutos, você vai sair confiante pra apresentar o Clube pra qualquer escola da sua carteira.</p>
+    </div>
+
+    <div class="manifesto">
+      <div class="quote">"Evento de Autógrafos não é sobre livros. É sobre transformar vidas e favorecer a educação. E quem faz isso acontecer escola por escola, professora por professora, família por família — é você."</div>
+      <div class="signature">— MaaS · Magic as a Service</div>
+    </div>
+
+    <h3>O que é o MaaS</h3>
+    <p>MaaS é como a gente chama o nosso jeito de trabalhar: <strong>Magic as a Service</strong>. A mágica não é só o produto — é como a gente entrega. É o seu acolhimento. É a presença. É a forma humana de cuidar de cada escola. É o capricho em cada material. É a sensibilidade de saber o momento certo de cada conversa.</p>
+    <p>Cada escola emocionada. Cada família emocionada. Cada criança guardando aquele dia pra sempre. <strong>Isso só acontece porque alguém — você — faz acontecer.</strong></p>
+
+    <div class="capsule">A Estante Mágica é pioneira e líder de mercado em transformar crianças em autoras. E o que nos torna pioneiros não é só o que fazemos — é <strong>como</strong> fazemos. O Clube vem pra tangibilizar isso ainda mais.</div>
+
+    <h3>O que você vai dominar nesse treinamento</h3>
+    <div class="objectives">
+      <div class="objective"><div class="objective-num">1</div><strong>O Clube por dentro</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Conceito, regras, faixas, ações, kits e operação — passo a passo.</p></div>
+      <div class="objective"><div class="objective-num">2</div><strong>Como apresentar</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Discurso, scripts, frases-chave — saída direta pra prática.</p></div>
+      <div class="objective"><div class="objective-num">3</div><strong>Lidar com o que vier</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">Dúvidas, objeções, pedidos de exceção — você sai sabendo responder.</p></div>
+      <div class="objective"><div class="objective-num">4</div><strong>Praticar de verdade</strong><p style="margin-top:8px;font-size:14px;color:var(--text-soft)">No simulador WhatsApp, com 5 cenários reais antes de aplicar com a escola.</p></div>
+    </div>
+
+    <h3>Como navegar</h3>
+    <ul>
+      <li>Use o menu à esquerda ou os botões "Próximo / Anterior" no rodapé.</li>
+      <li>Cada módulo tem um <strong>checkpoint amarelo</strong> com quiz, cenário ou role-play.</li>
+      <li>No <strong>Módulo 6</strong>, você tem uma <strong>calculadora interativa de pontos</strong>.</li>
+      <li>No <strong>Módulo 12</strong>, o <strong>Simulador de Conversa</strong> tipo WhatsApp.</li>
+      <li>Ao fim, a avaliação consolidada e o envio do seu aproveitamento por e-mail.</li>
+    </ul>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">Cada escola que vive o evento se torna uma evangelizadora natural da Estante Mágica. As famílias contam pra outras famílias. As coordenadoras conversam com outras coordenadoras. O Clube amplifica isso: quando a escola é reconhecida, a história fica ainda maior.</div>
+      </div>
+    </div>
+
+    <h3>Glossário-relâmpago</h3>
+    <table>
+      <thead><tr><th>Sigla</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>FC</strong></td><td>Fecha Compra — fechamento das vendas do ciclo</td></tr>
+        <tr><td><strong>EG</strong></td><td>Envio Gráfico — fechamento da seleção dos presentes para envio com os livros</td></tr>
+        <tr><td><strong>EA</strong></td><td>Evento de Autógrafos — o evento da escola</td></tr>
+        <tr><td><strong>MaaS</strong></td><td>Magic as a Service — a magia que acontece pelas mãos do CS</td></tr>
+        <tr><td><strong>Concluinte</strong></td><td>Escola com ao menos 1 venda registrada</td></tr>
+        <tr><td><strong>Rachel</strong></td><td>Sistema interno onde você acompanha o saldo e monta o presente da escola</td></tr>
+      </tbody>
+    </table>
+  `
+},
+{
+  id: 'm2', section: 'PARTE I — ENTENDA O CLUBE', title: '2 · O que é o Clube', duration: '7 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 2 · ENTENDA</span>
+      <h2>O Clube Estante Mágica</h2>
+      <p class="lead">A novidade do ciclo 2026 que transforma cada ação da escola em reconhecimento real.</p>
+    </div>
+
+    <h3>O que é o Clube</h3>
+    <p>O <strong>Clube Estante Mágica</strong> é o programa de reconhecimento da Estante Mágica. Cada ação que a escola executa ao longo do ciclo — cadastrar professoras, atingir metas, fazer ações de engajamento — vira <strong>pontos</strong>. E os pontos viram <strong>presentes reais</strong> que enriquecem o evento e valorizam quem fez o projeto acontecer.</p>
+
+    <div class="callout callout-success">
+      <div class="callout-title">🎯 A virada de chave</div>
+      Por muito tempo, a relação com as escolas foi marcada por cobranças e prazos. O Clube vira essa lógica de cabeça pra baixo: cada ação ao longo do ciclo é <strong>reconhecida e celebrada</strong>. Gestores e professoras sentem que o esforço é visto. <strong>É reconhecimento pelo que a escola já faz bem.</strong>
+    </div>
+
+    <h3>Por que o Clube existe</h3>
+    <p>Três motivos práticos que mudam o seu dia a dia como CS:</p>
+    <ul>
+      <li><strong>Engajamento.</strong> Cada ação tem peso, cada marco vira motivo de comemoração. A escola passa a olhar pra jornada como conquista, não como obrigação.</li>
+      <li><strong>Tangibilização.</strong> O que antes era "obrigado pelo trabalho" agora é certificado, plaquinha, kit, lembrança. Reconhecimento que se vê e se toca.</li>
+      <li><strong>Relacionamento.</strong> Você ganha um motivo natural pra cada contato com a escola. O saldo de pontos vira o seu roteiro de conversa ao longo do ano.</li>
+    </ul>
+
+    <div class="capsule">O Clube é a forma que a gente encontrou pra dizer obrigada todo mês — e não só no evento.</div>
+
+    <h3>Como funciona, em uma olhada</h3>
+    <table>
+      <tbody>
+        <tr><td><strong>Quem participa</strong></td><td>Escolas particulares parceiras com receita projetada acima de R$5k</td></tr>
+        <tr><td><strong>Como pontuar</strong></td><td>Realizando 16 ações ao longo do ciclo, distribuídas em 5 pilares</td></tr>
+        <tr><td><strong>Mínimo pra destravar</strong></td><td>340 pontos (as 4 ações de kickoff destravam o Kit Evento)</td></tr>
+        <tr><td><strong>Máximo no ciclo</strong></td><td>1.000 pontos</td></tr>
+        <tr><td><strong>O que ganha</strong></td><td>Presentes do Clube em 4 kits + itens avulsos</td></tr>
+        <tr><td><strong>Como chega</strong></td><td>Junto com os livros, em caixa separada — sem espera adicional</td></tr>
+      </tbody>
+    </table>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">As 4 ações de kickoff (cronograma, formato, tema e participação no kickoff) somam exatamente 340 pontos — e <strong>destravam automaticamente o Kit Evento</strong>. Ou seja: qualquer escola concluinte que faz o início do projeto direito já garante o kit completo do evento. O Clube começa generoso.</div>
+      </div>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Quiz</span>
+      <h3>Validando o que você aprendeu</h3>
+      <div class="quiz" data-quiz="m2q1">
+        <p class="quiz-question">1. Qual a principal mudança que o Clube traz?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Cobrar prazos com mais firmeza</li>
+          <li class="quiz-option" data-correct="true">Reconhecer e celebrar cada ação que a escola já faz no projeto</li>
+          <li class="quiz-option" data-correct="false">Reduzir o número de contatos com a escola</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m2q2" style="margin-top:24px">
+        <p class="quiz-question">2. Quantos pontos uma escola precisa pra destravar o Kit Evento?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">100 pts</li>
+          <li class="quiz-option" data-correct="true">340 pts (as 4 ações de kickoff)</li>
+          <li class="quiz-option" data-correct="false">1.000 pts (todas as ações do ciclo)</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m2q3" style="margin-top:24px">
+        <p class="quiz-question">3. Quantos pontos no máximo uma escola pode acumular num ciclo?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">500 pts</li>
+          <li class="quiz-option" data-correct="true">1.000 pts</li>
+          <li class="quiz-option" data-correct="false">Sem limite — quanto mais melhor</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm3', section: 'PARTE I — ENTENDA O CLUBE', title: '3 · Quem participa e a faixa', duration: '7 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 3 · ENTENDA</span>
+      <h2>Quem participa e como funciona a faixa</h2>
+      <p class="lead">Critérios de entrada, faixas de receita projetada e o conceito de câmbio.</p>
+    </div>
+
+    <h3>Quem participa</h3>
+    <p>Participam do Clube todas as <strong>escolas particulares parceiras com receita projetada acima de R$5k</strong>. Escolas abaixo de R$5k ficam de fora — e <strong>não devem ser informadas da existência do Clube</strong>, pra evitar frustração.</p>
+
+    <h3>As 4 faixas de receita</h3>
+    <p>A faixa em que a escola se encaixa é definida pela <strong>receita projetada</strong> — uma coluna da base escola que se chama exatamente "receita projetada", calculada com base nos alunos cadastrados e perfil da escola (nova ou renovação).</p>
+
+    <table>
+      <thead>
+        <tr><th>Faixa</th><th>Câmbio</th><th>O que isso significa</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>R$5k – 10k</strong></td><td>Mais conservador</td><td>Cada ponto rende menos no catálogo</td></tr>
+        <tr><td><strong>R$10k – 20k</strong></td><td>Intermediário</td><td>Cada ponto rende mais que na faixa anterior</td></tr>
+        <tr><td><strong>R$20k – 40k</strong></td><td>Generoso</td><td>Câmbio mais favorável — escola consegue resgatar mais</td></tr>
+        <tr><td><strong>R$40k+</strong></td><td>Premium</td><td>Maior câmbio do Clube — reconhecimento proporcional ao volume</td></tr>
+      </tbody>
+    </table>
+
+    <div class="capsule">"Câmbio" é só o nome técnico de quanto cada ponto <strong>vale no catálogo de presentes</strong>. Escolas com receita maior têm câmbio mais generoso — porque o impacto delas é maior, e o reconhecimento acompanha.</div>
+
+    <h3>Você não precisa fazer essa conta</h3>
+    <div class="callout callout-info">
+      <div class="callout-title">ℹ️ A Rachel cuida disso</div>
+      A faixa de cada escola já vem definida na base, na coluna <strong>"receita projetada"</strong>. Você não precisa calcular nada — só consultar. A regra "qual câmbio se aplica" o sistema faz sozinho.
+    </div>
+
+    <h3>Boa notícia: todos os kits estão disponíveis pra todas as escolas</h3>
+    <div class="callout callout-success">
+      <div class="callout-title">🎁 Regra "todos veem tudo"</div>
+      Diferente do que você talvez tenha visto em programas anteriores, no Clube <strong>podemos mostrar todos os cardápios para todas as escolas</strong>. Os 4 kits + os itens avulsos cabem na hipótese de 1.000 pts — então qualquer escola que se engaja a fundo consegue acessar a mesma experiência.
+    </div>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">Pra escolas <strong>novas</strong>, a receita projetada é definida no kick-off e <strong>não muda</strong> com a receita realizada. Pra escolas de <strong>renovação</strong>, a base é a performance do ano anterior. Isso evita que a faixa mude no meio do ciclo e bagunce a comunicação.</div>
+      </div>
+    </div>
+
+    <h3>Início da jornada — atenção aos prazos</h3>
+    <div class="callout callout-warning">
+      <div class="callout-title">⏰ Marco zero</div>
+      Para a contabilização dos prazos das ações com gatilho de tempo (cadastro de professoras até o fim do Mês 2, post no IG até o fim do Mês 1, etc.), considera-se a <strong>data do primeiro aluno cadastrado</strong> como início da jornada. É a partir dali que o relógio começa a contar.
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Cenários</span>
+      <h3>Diagnóstico rápido</h3>
+      <p style="font-size:14px;color:var(--text-soft)">Clique em cada cenário para revelar a resposta.</p>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📚 Escola Vila Nova — particular nova, receita projetada R$8k. Faz parte do Clube? Em qual faixa?</div>
+        <div class="reveal-answer"><strong>Resposta:</strong> Sim, faz parte (acima de R$5k e particular). Faixa R$5k–10k. Pode ver todos os kits e itens.</div>
+      </div>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📚 Escola Estrela — particular renovação, fechou o ano anterior em R$22k. Em qual faixa entra esse ano?</div>
+        <div class="reveal-answer"><strong>Resposta:</strong> Faixa R$20k–40k (definida pela receita do ano anterior). Câmbio bem mais generoso que a Vila Nova — consegue resgatar mais com a mesma pontuação.</div>
+      </div>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📚 Escola Vento — particular, receita projetada R$3,8k. Faz parte?</div>
+        <div class="reveal-answer"><strong>Resposta:</strong> Não. Fica abaixo do mínimo de R$5k. <strong>Não menciona o Clube</strong> pra ela — pra evitar criar expectativa frustrante.</div>
+      </div>
+      <div class="quiz" data-quiz="m3q1" style="margin-top:24px">
+        <p class="quiz-question">1. Uma escola pequena pode ver o Kit Escola (com placa de acrílico)? Ou só vê os kits da sua faixa?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="true">Pode ver todos os kits — eles cabem em 1.000 pts pra qualquer faixa</li>
+          <li class="quiz-option" data-correct="false">Só vê os kits da faixa dela</li>
+          <li class="quiz-option" data-correct="false">Só vê o Kit Evento, os outros são surpresa</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m3q2" style="margin-top:24px">
+        <p class="quiz-question">2. A partir de quando os prazos das ações começam a contar?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Da data de assinatura do contrato</li>
+          <li class="quiz-option" data-correct="true">Da data do primeiro aluno cadastrado — marco zero da jornada</li>
+          <li class="quiz-option" data-correct="false">Do início do ano letivo</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m3q3" style="margin-top:24px">
+        <p class="quiz-question">3. Onde você consulta a faixa da escola?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Você calcula com base nos alunos cadastrados</li>
+          <li class="quiz-option" data-correct="true">Na coluna "receita projetada" da base escola (Rachel)</li>
+          <li class="quiz-option" data-correct="false">Pergunta direto pra coordenadora da escola</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm4', section: 'PARTE I — ENTENDA O CLUBE', title: '4 · As 16 ações que pontuam', duration: '12 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 4 · ENTENDA</span>
+      <h2>As 16 ações pontuáveis — em 5 pilares</h2>
+      <p class="lead">A escola acumula pontos realizando ações em 5 pilares ao longo do ciclo. Sem prazo, a ação não gera o comportamento que a EM quer.</p>
+    </div>
+
+    <h3>Os 5 pilares</h3>
+    <p>Cada ação que a escola executa pertence a um pilar. Os pilares contam a jornada do projeto — do início ao evento.</p>
+    <div class="pillar-grid">
+      <div class="pillar"><div class="pillar-emoji">🚀</div><div class="pillar-name">Kick off</div><div class="pillar-pts">4 ações · 340 pts</div></div>
+      <div class="pillar"><div class="pillar-emoji">🔁</div><div class="pillar-name">Retenção</div><div class="pillar-pts">4 ações · 340 pts</div></div>
+      <div class="pillar"><div class="pillar-emoji">💰</div><div class="pillar-name">Eng. Vendas</div><div class="pillar-pts">6 ações</div></div>
+      <div class="pillar"><div class="pillar-emoji">⏰</div><div class="pillar-name">Antecipação</div><div class="pillar-pts">2 ações · 135 pts</div></div>
+      <div class="pillar"><div class="pillar-emoji">🎉</div><div class="pillar-name">Evento</div><div class="pillar-pts">2 ações · 70 pts</div></div>
+    </div>
+
+    <h3>Tabela completa — as 16 ações</h3>
+    <p style="font-size:14px;color:var(--text-soft)"><strong>Marcação:</strong> "Sistema" = marcado automaticamente. "Manual" = você (CS) precisa marcar.</p>
+    <table class="actions-table">
+      <thead><tr><th>Pilar</th><th>ID</th><th>Ação</th><th>Prazo</th><th>Marcação</th><th>Pts</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">🚀 Kickoff</td><td>K1</td><td>Participou da reunião de boas-vindas</td><td>Pré-condição</td><td>Manual</td><td class="pts">70</td></tr>
+        <tr><td>K2</td><td>Cronograma do projeto definido</td><td>Pré-condição</td><td>Sistema</td><td class="pts">70</td></tr>
+        <tr><td>K3</td><td>Formato de envio dos materiais escolhido</td><td>Pré-condição</td><td>Sistema</td><td class="pts">100</td></tr>
+        <tr><td>K4</td><td>Tema do projeto escolhido</td><td>Pré-condição</td><td>Manual</td><td class="pts">100</td></tr>
+        <tr><td rowspan="4">🔁 Retenção</td><td>R1</td><td>Professoras cadastradas (metade da qtd de turmas, mín. 1)</td><td>Fim do Mês 2 ⚠️</td><td>Sistema</td><td class="pts">65</td></tr>
+        <tr><td>R2</td><td>30% dos alunos com responsáveis cadastrados</td><td>60 dias antes do FC</td><td>Sistema</td><td class="pts">135</td></tr>
+        <tr><td>R3</td><td>90% dos alunos com ebook pronto</td><td>Envio de material</td><td>Sistema</td><td class="pts">70</td></tr>
+        <tr><td>R4</td><td>Post sobre parceria EM no IG da escola</td><td>Fim do Mês 1 ⚠️</td><td>Manual</td><td class="pts">70</td></tr>
+        <tr><td rowspan="6">💰 Eng. Vendas</td><td>E1</td><td>QR code do catálogo para famílias</td><td>20 dias antes do FC</td><td>Manual</td><td class="pts">50</td></tr>
+        <tr><td>E2</td><td>Ação de engajamento para alunos</td><td>20 dias antes do FC</td><td>Manual</td><td class="pts">70</td></tr>
+        <tr><td>E3</td><td>≥75% dos alunos com compra confirmada</td><td>Fechamento de vendas</td><td>Sistema</td><td class="pts">85</td></tr>
+        <tr><td>E4 ★</td><td>Receita Faixa 1 — meta atingida</td><td>FC</td><td>Sistema</td><td class="pts">100</td></tr>
+        <tr><td>E5 ★</td><td>Receita Faixa 2 — meta superada em até 20%</td><td>FC</td><td>Sistema</td><td class="pts">155</td></tr>
+        <tr><td>E6 ★</td><td>Receita Faixa 3 — meta superada em +20%</td><td>FC</td><td>Sistema</td><td class="pts">205</td></tr>
+        <tr><td rowspan="2">⏰ Antecipação</td><td>A1</td><td>25% das compras com +60 dias do FC</td><td>+60 dias do FC</td><td>Sistema</td><td class="pts">100</td></tr>
+        <tr><td>A2</td><td>45% das compras com +30 dias do FC</td><td>+30 dias do FC</td><td>Sistema</td><td class="pts">35</td></tr>
+        <tr><td rowspan="2">🎉 Evento</td><td>V1</td><td>Ação de engajamento emocional pré-evento</td><td>FC</td><td>Manual</td><td class="pts">35</td></tr>
+        <tr><td>V2</td><td>Ação de engajamento dos professores</td><td>15 dias antes do FC</td><td>Manual</td><td class="pts">35</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-error">
+      <div class="callout-title">⚠️ Regra crítica — E4, E5 e E6 são EXCLUSIVAS</div>
+      As três metas de receita (★) <strong>não somam</strong>. Conta só a faixa mais alta atingida. Se a escola bate a meta premium (E6 = 205 pts), ela leva 205 pts — não 100+155+205. <strong>Cuidado ao comunicar isso à escola</strong> pra não criar expectativa errada.
+    </div>
+
+    <h3>Sua responsabilidade direta — as ações manuais</h3>
+    <p>Das 16 ações, <strong>7 são manuais</strong> — ou seja, você (CS) é quem marca no sistema. Essas são as ações onde você precisa <strong>provocar a escola</strong>, acompanhar e celebrar:</p>
+    <ul>
+      <li><strong>K1</strong> — Reunião de boas-vindas (70 pts)</li>
+      <li><strong>K4</strong> — Tema do projeto escolhido (100 pts)</li>
+      <li><strong>R4</strong> — Post sobre parceria no IG da escola (70 pts)</li>
+      <li><strong>E1</strong> — QR code do catálogo para famílias (50 pts)</li>
+      <li><strong>E2</strong> — Ação de engajamento para alunos (70 pts)</li>
+      <li><strong>V1</strong> — Ação de engajamento emocional pré-evento (35 pts)</li>
+      <li><strong>V2</strong> — Ação de engajamento dos professores (35 pts)</li>
+    </ul>
+    <p>Total: <strong>430 pts</strong> nas mãos do CS. Quase metade do teto do ciclo.</p>
+
+    <div class="capsule">As ações manuais não acontecem sozinhas. Sem você lembrando, provocando e celebrando, esses 430 pts não saem do papel. <strong>O Clube é seu também.</strong></div>
+
+    <h3>Regra de ouro — mencione o saldo em todo contato</h3>
+    <div class="callout callout-pink">
+      <div class="callout-title">💜 A virada de relacionamento</div>
+      Toda mensagem, todo e-mail, toda chamada começa pelo saldo de pontos: <em>"Você está com 320 pontos! Faltam 60 pontos pra desbloquear mais coisas — e a próxima ação te leva pra lá."</em> Isso transforma cada contato em <strong>reforço positivo + próximo passo claro</strong>.
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Cálculo na prática</span>
+      <h3>Vamos calcular juntos</h3>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📊 Escola Sol — completou: todo o kickoff (340); cadastro de profs + 30% responsáveis + post no IG (R1+R2+R4); QR + ação engajamento alunos + ≥75% compradores; atingiu E5 (Faixa 2). Quantos pontos?</div>
+        <div class="reveal-answer">
+          <strong>Cálculo:</strong><br>
+          • Kickoff: <strong>340 pts</strong> (Kit Evento destravado ✓)<br>
+          • Retenção: R1 (65) + R2 (135) + R4 (70) = <strong>270 pts</strong><br>
+          • Vendas: E1 (50) + E2 (70) + E3 (85) + E5 (155 — exclusiva) = <strong>360 pts</strong><br>
+          <strong>Total: 970 pontos</strong> 🎯<br><br>
+          <em>Próximo gatilho:</em> "Você tá com 970 pts! Faltam só 30 pts pra você bater o teto do ciclo — vamos garantir a antecipação A2 (+35 pts)?"
+        </div>
+      </div>
+
+      <div class="quiz" data-quiz="m4q1" style="margin-top:24px">
+        <p class="quiz-question">1. A escola atingiu E6 (faixa premium). Quantos pontos ela soma DAS METAS DE RECEITA?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">100 + 155 + 205 = 460 pts</li>
+          <li class="quiz-option" data-correct="true">205 pts apenas (E4/E5/E6 são exclusivas — só conta a faixa mais alta)</li>
+          <li class="quiz-option" data-correct="false">155 + 205 = 360 pts</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m4q2" style="margin-top:24px">
+        <p class="quiz-question">2. Quais ações o CS precisa marcar manualmente?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Só E1 e E2</li>
+          <li class="quiz-option" data-correct="true">K1, K4, R4, E1, E2, V1 e V2 — as ações que dependem da provocação do CS</li>
+          <li class="quiz-option" data-correct="false">Todas as 16 ações</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m4q3" style="margin-top:24px">
+        <p class="quiz-question">3. Qual o prazo da R2 (30% dos responsáveis cadastrados)?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Fim do Mês 1</li>
+          <li class="quiz-option" data-correct="true">Até 60 dias antes do FC</li>
+          <li class="quiz-option" data-correct="false">No FC</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm5', section: 'PARTE I — ENTENDA O CLUBE', title: '5 · Os 4 kits do Clube', duration: '8 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 5 · ENTENDA</span>
+      <h2>Os 4 kits do Clube</h2>
+      <p class="lead">Como a escola escolhe seus presentes. Kit Evento (automático com 340 pts) + 3 kits adicionais + itens avulsos.</p>
+    </div>
+
+    <h3>Como funciona a escolha</h3>
+    <p>Após o Fecha Compra (FC), você apresenta os kits pra escola. Com base no saldo de pontos acumulado, ela escolhe a composição que faz mais sentido pro evento dela. Você é o curador da conversa, não o vendedor de itens.</p>
+
+    <div class="callout callout-success">
+      <div class="callout-title">🎁 Todos os kits estão disponíveis pra todas as escolas</div>
+      Não há "kit por faixa" — todos os 4 kits + os itens avulsos podem ser apresentados pra qualquer escola. O que muda é quanto cabe no saldo de pontos × câmbio dela.
+    </div>
+
+    <h3>Os 4 kits</h3>
+    <div class="kit-grid">
+      <div class="kit-card" style="border-color: var(--success)">
+        <div class="kit-tag" style="background: var(--success)">Automático</div>
+        <div class="kit-emoji">🎁</div>
+        <div class="kit-name">Kit Evento</div>
+        <div class="kit-rule">Destravado com 340 pts de kickoff</div>
+        <ul>
+          <li>Lambe-lambe</li>
+          <li>Display de mesa (por aluno)</li>
+          <li>Plaquinha de foto (por professor)</li>
+          <li>Ponteira estrela (por aluno)</li>
+          <li>Certificado da educadora (por prof)</li>
+          <li>Guia de Bolso do Evento</li>
+          <li>Frete incluído</li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <div class="kit-tag">Opcional</div>
+        <div class="kit-emoji">👩‍🏫</div>
+        <div class="kit-name">Kit Professor</div>
+        <div class="kit-rule">Por professora — usa pontos</div>
+        <ul>
+          <li>Cartela de adesivos</li>
+          <li>Bloco de anotação</li>
+          <li>Lápis personalizado</li>
+          <li>Caneta personalizada</li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <div class="kit-tag">Opcional</div>
+        <div class="kit-emoji">🏫</div>
+        <div class="kit-name">Kit Escola</div>
+        <div class="kit-rule">Fixo por escola — usa pontos</div>
+        <ul>
+          <li>Placa acrílico parceria</li>
+          <li>📰 Post destaque site/blog EM</li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <div class="kit-tag">Opcional</div>
+        <div class="kit-emoji">🎉</div>
+        <div class="kit-name">Kit Extras Evento</div>
+        <div class="kit-rule">Fixo por escola — usa pontos</div>
+        <ul>
+          <li>1 Lambe-lambe extra</li>
+          <li>10 Displays de mesa</li>
+          <li>10 Ponteiras estrela</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Itens avulsos digitais</h3>
+    <p>Além dos kits, existem itens avulsos que a escola pode adicionar à composição:</p>
+    <ul>
+      <li>🎵 Playlist personalizada</li>
+      <li>🎤 Música personalizada</li>
+      <li>🎬 Vídeo retrospectiva</li>
+      <li>📰 Post destaque no blog da Estante Mágica</li>
+    </ul>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">Os itens digitais (playlist, música, vídeo, post no blog) custam o mesmo em pontos pra escolas R$10k+, R$20k+ e R$40k+ — porque o "câmbio" desses itens é definido por valor percebido pela escola, não custo de produção. Eles são uma forma poderosa de reconhecimento.</div>
+      </div>
+    </div>
+
+    <h3>Trocas dentro dos kits</h3>
+    <div class="callout callout-info">
+      <div class="callout-title">🔄 Sobre ajustes na composição</div>
+      Se a escola quiser ajustar algum item dentro do kit (ex.: trocar 2 lápis por 1 caneta), <strong>é possível</strong> — desde que a combinação final respeite o orçamento de pontos dela.
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ Sobre trocar o Kit Evento por outra coisa</div>
+      Se a escola pedir pra trocar o Kit Evento (o automático) por algo equivalente em pontos, <strong>não vamos incentivar, mas é possível</strong>. Esse pedido vira fluxo de exceção via suporte tec (você verá isso no Módulo 7).
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Quiz</span>
+      <h3>Validando o que você aprendeu</h3>
+      <div class="quiz" data-quiz="m5q1">
+        <p class="quiz-question">1. O que destrava o Kit Evento?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">A escola pagar uma taxa extra</li>
+          <li class="quiz-option" data-correct="true">As 4 ações de kickoff (que somam 340 pts)</li>
+          <li class="quiz-option" data-correct="false">A escola atingir 1.000 pts no ciclo</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m5q2" style="margin-top:24px">
+        <p class="quiz-question">2. Uma escola da faixa R$8k pode ver o Kit Escola (com placa de acrílico)?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Não — escola pequena só vê o Kit Evento</li>
+          <li class="quiz-option" data-correct="true">Sim — todos os 4 kits estão disponíveis pra todas as faixas</li>
+          <li class="quiz-option" data-correct="false">Só se ela pagar a diferença</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m5q3" style="margin-top:24px">
+        <p class="quiz-question">3. A escola quer trocar 2 lápis por 1 caneta dentro do Kit Professor. Pode?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Não — kits são fixos</li>
+          <li class="quiz-option" data-correct="true">Sim, desde que a combinação final respeite o orçamento de pontos</li>
+          <li class="quiz-option" data-correct="false">Só com aprovação da Aninha</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm6', section: 'PARTE I — ENTENDA O CLUBE', title: '6 · Catálogo e calculadora', duration: '10 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 6 · ENTENDA</span>
+      <h2>Catálogo de itens e cálculo prático</h2>
+      <p class="lead">Quanto cada item custa em pontos, por faixa de receita. E uma calculadora pra você praticar agora.</p>
+    </div>
+
+    <h3>Como ler a tabela</h3>
+    <p>Cada item tem um <strong>custo em pontos</strong> que depende da faixa da escola. Escolas com câmbio mais generoso pagam menos pontos pelo mesmo item — porque o ponto delas "vale mais".</p>
+
+    <h3>📚 Itens por aluno (pack de 10)</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Custo R$</th><th>R$5k–10k</th><th>R$10k–20k</th><th>R$20k–40k</th><th>R$40k+</th></tr></thead>
+      <tbody>
+        <tr><td>Display de mesa</td><td>R$ 2,50</td><td class="pts">17</td><td class="pts">10</td><td class="pts">7</td><td class="pts">5</td></tr>
+        <tr><td>Ponteira estrela</td><td>R$ 0,70</td><td class="pts">5</td><td class="pts">3</td><td class="pts">2</td><td class="pts">1</td></tr>
+      </tbody>
+    </table>
+
+    <h3>👩‍🏫 Itens por professora (pack de 5)</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Custo R$</th><th>R$5k–10k</th><th>R$10k–20k</th><th>R$20k–40k</th><th>R$40k+</th></tr></thead>
+      <tbody>
+        <tr><td>Cartela de adesivos</td><td>R$ 1,25</td><td class="pts">8</td><td class="pts">5</td><td class="pts">4</td><td class="pts">3</td></tr>
+        <tr><td>Bloco de anotação</td><td>R$ 14,30</td><td class="pts">95</td><td class="pts">57</td><td class="pts">41</td><td class="pts">29</td></tr>
+        <tr><td>Lápis personalizado</td><td>R$ 6,50</td><td class="pts">43</td><td class="pts">26</td><td class="pts">19</td><td class="pts">13</td></tr>
+        <tr><td>Caneta personalizada</td><td>R$ 10,25</td><td class="pts">68</td><td class="pts">41</td><td class="pts">29</td><td class="pts">21</td></tr>
+        <tr><td>Plaquinha de foto</td><td>R$ 8,00</td><td class="pts">53</td><td class="pts">32</td><td class="pts">23</td><td class="pts">16</td></tr>
+        <tr><td>Certificado da educadora</td><td>R$ 1,50</td><td class="pts">10</td><td class="pts">6</td><td class="pts">4</td><td class="pts">3</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🏫 Itens por escola (avulso)</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Custo R$</th><th>R$5k–10k</th><th>R$10k–20k</th><th>R$20k–40k</th><th>R$40k+</th></tr></thead>
+      <tbody>
+        <tr><td>Lambe-lambe</td><td>R$ 7,80</td><td class="pts">52</td><td class="pts">31</td><td class="pts">22</td><td class="pts">16</td></tr>
+        <tr><td>Placa acrílico parceria</td><td>R$ 47,50</td><td class="pts">317</td><td class="pts">190</td><td class="pts">136</td><td class="pts">97</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🎵 Itens digitais (avulso)</h3>
+    <table>
+      <thead><tr><th>Item</th><th>R$5k–10k</th><th>R$10k–20k</th><th>R$20k–40k</th><th>R$40k+</th></tr></thead>
+      <tbody>
+        <tr><td>Playlist personalizada</td><td class="pts">68</td><td class="pts">41</td><td class="pts">29</td><td class="pts">21</td></tr>
+        <tr><td>Música personalizada</td><td class="pts">68</td><td class="pts">41</td><td class="pts">29</td><td class="pts">21</td></tr>
+        <tr><td>Vídeo retrospectiva</td><td class="pts">68</td><td class="pts">41</td><td class="pts">29</td><td class="pts">21</td></tr>
+        <tr><td>Post destaque blog EM</td><td class="pts">68</td><td class="pts">41</td><td class="pts">29</td><td class="pts">21</td></tr>
+      </tbody>
+    </table>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">A <strong>placa de acrílico de parceria</strong> custa 317 pts pra uma escola R$5k–10k (quase um terço do teto dela). Já pra uma escola R$40k+ custa 97 pts — menos de 10% do teto. <strong>É por isso que escolas maiores conseguem montar uma experiência muito mais rica.</strong></div>
+      </div>
+    </div>
+
+    <h3>🧮 Calculadora — pratique agora</h3>
+    <p>Use a calculadora abaixo pra simular uma escola da sua carteira. Você digita os dados, escolhe os itens, e a calculadora mostra quanto cabe no saldo dela.</p>
+
+    <div class="calculator">
+      <h4>Calculadora de presentes do Clube</h4>
+      <div class="calc-inputs">
+        <div class="calc-input">
+          <label>Faixa da escola</label>
+          <select id="calcFaixa">
+            <option value="0">R$5k – 10k</option>
+            <option value="1">R$10k – 20k</option>
+            <option value="2">R$20k – 40k</option>
+            <option value="3">R$40k+</option>
+          </select>
+        </div>
+        <div class="calc-input">
+          <label>Saldo de pontos da escola</label>
+          <input type="number" id="calcSaldo" value="500" min="340" max="1000">
+        </div>
+        <div class="calc-input">
+          <label>Nº de alunos</label>
+          <input type="number" id="calcAlunos" value="60" min="1">
+        </div>
+        <div class="calc-input">
+          <label>Nº de professoras</label>
+          <input type="number" id="calcProfs" value="3" min="1">
+        </div>
+      </div>
+
+      <h4 style="font-size:14px; margin-top:18px">Selecione itens adicionais (além do Kit Evento):</h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin:10px 0;">
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="cartela"> Cartela adesivos (por prof)</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="bloco"> Bloco anotação (por prof)</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="lapis"> Lápis personalizado (por prof)</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="caneta"> Caneta personalizada (por prof)</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="placa"> Placa acrílico (1 por escola)</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="playlist"> Playlist personalizada</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="video"> Vídeo retrospectiva</label>
+        <label style="display:flex; align-items:center; gap:8px; font-size:14px;"><input type="checkbox" data-calc-item="post"> Post destaque blog EM</label>
+      </div>
+
+      <div class="calc-output" id="calcOutput">
+        <div class="row"><span>Saldo disponível:</span><strong id="calcSaldoDisp">500 pts</strong></div>
+        <div class="row"><span>Total selecionado:</span><strong id="calcTotal">0 pts</strong></div>
+        <div class="row"><span>Saldo restante:</span><strong id="calcRestante">500 pts</strong></div>
+        <div id="calcMsg" style="margin-top:10px; font-size:13px;"></div>
+      </div>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Cálculo</span>
+      <h3>Vamos calcular juntos</h3>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📊 Escola Bem-Te-Vi — faixa R$10k–20k, 40 alunos, 2 professoras. Tem 600 pts disponíveis e quer adicionar: lápis + caneta pra cada prof + placa de acrílico. Cabe?</div>
+        <div class="reveal-answer">
+          <strong>Cálculo (faixa R$10k–20k):</strong><br>
+          • Lápis (por prof, pack de 5): 26 pts × 2 profs = <strong>52 pts</strong><br>
+          • Caneta (por prof, pack de 5): 41 pts × 2 profs = <strong>82 pts</strong><br>
+          • Placa acrílico (1 por escola): <strong>190 pts</strong><br>
+          <strong>Total: 324 pts</strong><br><br>
+          <em>Saldo de 600 pts cobre tranquilamente — sobram 276 pts pra outros itens.</em><br>
+          ✅ <strong>Cabe e ainda sobra.</strong> Pode oferecer + 1 playlist (41 pts) e ainda fica com 235 pts no crédito da escola.
+        </div>
+      </div>
+      <div class="quiz" data-quiz="m6q1" style="margin-top:24px">
+        <p class="quiz-question">1. Por que a placa de acrílico custa 317 pts numa escola R$5k–10k e 97 pts numa escola R$40k+?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Porque o item é diferente pra cada faixa</li>
+          <li class="quiz-option" data-correct="true">Porque o câmbio (valor de cada ponto no catálogo) é mais generoso pra faixas maiores</li>
+          <li class="quiz-option" data-correct="false">Porque escolas maiores pagam por fora a diferença</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m6q2" style="margin-top:24px">
+        <p class="quiz-question">2. Itens digitais (playlist, vídeo, post) custam o mesmo entre faixas?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Sim — todas as faixas pagam o mesmo em pontos</li>
+          <li class="quiz-option" data-correct="true">Não — também variam por faixa (câmbio), mas são uma forma poderosa de reconhecimento</li>
+          <li class="quiz-option" data-correct="false">São sempre gratuitos</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm7', section: 'PARTE I — ENTENDA O CLUBE', title: '7 · Operação na prática', duration: '9 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 7 · ENTENDA</span>
+      <h2>Operação — envio, prazos e fluxo de exceção</h2>
+      <p class="lead">Como tudo se conecta: da escolha dos itens à confirmação de recebimento pela escola.</p>
+    </div>
+
+    <h3>O fluxo completo de ponta a ponta</h3>
+    <table>
+      <thead><tr><th>Etapa</th><th>Quando</th><th>Responsável</th></tr></thead>
+      <tbody>
+        <tr><td>Apresentar opções e escolher itens com a escola</td><td>Após o Fecha Compra (FC)</td><td><strong>Você (CS)</strong></td></tr>
+        <tr><td>Criar o pedido na Rachel</td><td>Até o Envio Gráfico (EG)</td><td><strong>Você (CS)</strong></td></tr>
+        <tr><td>Acompanhamento na última semana do FC</td><td>Última semana do FC</td><td>Time de Eventos (apoio interno)</td></tr>
+        <tr><td>Envio para produção</td><td>Após o EG</td><td>Time Ops</td></tr>
+        <tr><td>Envio físico junto com os livros</td><td>Janela de envio</td><td>Ops + gráfica</td></tr>
+        <tr><td>Confirmação de recebimento</td><td>Após o EA</td><td>Time de Eventos</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-success">
+      <div class="callout-title">📦 Como o presente chega na escola</div>
+      O presente do Clube viaja <strong>junto com os livros</strong>, em uma <strong>caixa separada</strong>. Mesmo envio, sem espera adicional. A escola recebe tudo de uma vez, prontinho pro evento.
+    </div>
+
+    <h3>Pontos não expiram — viram crédito</h3>
+    <div class="callout callout-pink">
+      <div class="callout-title">💜 O que acontece com os pontos no fim do ciclo</div>
+      Os pontos da escola <strong>não expiram no EG</strong>. Se sobrar saldo, ele fica como <strong>crédito da escola</strong>. Itens não relacionados ao evento (ex: vídeo retrospectiva, post no blog, materiais pra próxima ação) podem ser resgatados depois via fluxo de exceção.
+    </div>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">Em 2026 a regra é: pontos não expiram. Avaliamos como funciona na prática durante o primeiro ano e ajustamos pra 2027 com base nos aprendizados. <em>(Premissa em validação final com o time de tecnologia.)</em></div>
+      </div>
+    </div>
+
+    <h3>O que controlar antes de fechar o pedido</h3>
+    <p>Antes de concluir o pedido na Rachel, confirme que o sistema NÃO está bloqueando por:</p>
+    <ul>
+      <li>❌ Sem alunos cadastrados</li>
+      <li>❌ Data do evento não cadastrada</li>
+      <li>❌ Sem livros vendidos</li>
+    </ul>
+    <p>Se algum desses faltar, o pedido não fecha — independentemente de quanto saldo a escola tem.</p>
+
+    <h3>Aprovação da escola — checkbox obrigatório</h3>
+    <p>Ao finalizar a montagem, o sistema exige um checkbox:</p>
+    <ul>
+      <li>☐ <strong>Kit aprovado pela escola</strong> — você falou e ela validou</li>
+      <li>☐ <strong>Kit sem ok da escola</strong> — você não conseguiu validar</li>
+    </ul>
+    <div class="callout callout-warning">
+      <div class="callout-title">📝 Histórico fica registrado</div>
+      Marque honestamente. Marcar "ok" sem ter conversado é registro falso — afeta a experiência da família e fica documentado.
+    </div>
+
+    <h3>Fluxo de exceção — quando abrir chamado</h3>
+    <div class="callout callout-info">
+      <div class="callout-title">🆘 Quando é exceção</div>
+      Algumas situações fogem do fluxo padrão e precisam ser tratadas via <strong>chamado pelo suporte de tecnologia</strong> (não use WhatsApp informal):
+      <ul style="margin:8px 0 0 24px">
+        <li>Escola está fora do range (abaixo de R$5k) mas, por algum motivo, vai receber kit</li>
+        <li>Escola quer alterar o Kit Evento (o automático)</li>
+        <li>Resgatar itens não relacionados ao evento, usando crédito de pontos pós-EA</li>
+      </ul>
+      Esses pedidos são solicitados no suporte tec e feitos pelo time de tec.
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Operação</span>
+      <h3>Aplicando o fluxo</h3>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📦 Escola pediu pra trocar o Kit Evento (lambe-lambe + display + plaquinha...) por outros itens equivalentes em pontos. O que faço?</div>
+        <div class="reveal-answer"><strong>Resposta:</strong> Não vamos incentivar a troca — mas <strong>é possível</strong>. Você precisa abrir um <strong>chamado pelo suporte de tecnologia</strong>. O time de tec fará o ajuste. Tudo registrado.</div>
+      </div>
+      <div class="reveal-card">
+        <div class="reveal-prompt">📦 A escola fechou ciclo com 720 pts mas só usou 480 no envio. Os 240 pts somem?</div>
+        <div class="reveal-answer"><strong>Resposta:</strong> Não! Os 240 pts ficam como <strong>crédito da escola</strong>. Itens não-evento podem ser enviados depois via chamado para o suporte de tecnologia.</div>
+      </div>
+      <div class="quiz" data-quiz="m7q1" style="margin-top:24px">
+        <p class="quiz-question">1. Como o presente do Clube chega na escola?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Em entrega separada, dias depois dos livros</li>
+          <li class="quiz-option" data-correct="true">Junto com os livros, em caixa separada — mesmo envio</li>
+          <li class="quiz-option" data-correct="false">A escola busca na sede da Estante Mágica</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m7q2" style="margin-top:24px">
+        <p class="quiz-question">2. Os pontos da escola expiram no EG?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Sim, expiram e são perdidos</li>
+          <li class="quiz-option" data-correct="true">Não — ficam como crédito da escola. Itens não-evento podem vir depois via chamado</li>
+          <li class="quiz-option" data-correct="false">Viram desconto no próximo ciclo</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m7q3" style="margin-top:24px">
+        <p class="quiz-question">3. Como tratar pedido de troca do Kit Evento?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">É proibido — recusar de cara</li>
+          <li class="quiz-option" data-correct="true">Não vamos incentivar, mas é possível via fluxo de exceção (chamado para o suporte tec)</li>
+          <li class="quiz-option" data-correct="false">Trocar direto no sistema sem registrar</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm8', section: 'PARTE II — VOCÊ É O AGENTE DO MaaS', title: '8 · O Clube em cada persona', duration: '8 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 8 · APRESENTE</span>
+      <h2>O Clube em cada persona</h2>
+      <p class="lead">A escola é uma rede de pessoas. Cada uma quer ouvir uma coisa diferente — mas a essência é a mesma: reconhecimento.</p>
+    </div>
+
+    <div class="manifesto">
+      <div class="quote">"O CS conversa com a escola. A escola entrega para a família. A família vibra com a criança autora. Cada decisão sua chega na criança."</div>
+      <div class="signature">— A cadeia de impacto do MaaS</div>
+    </div>
+
+    <h3>As quatro personas</h3>
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="emoji">👨‍💼</div>
+        <div class="role">Diretor / Mantenedor</div>
+        <div class="impact">É quem assina. Pensa em receita, evasão e marca da escola. Linguagem: ROI, posicionamento institucional, retenção de matrícula.</div>
+      </div>
+      <div class="persona-card">
+        <div class="emoji">📚</div>
+        <div class="role">Coordenador Pedagógico</div>
+        <div class="impact">É o curador do projeto na escola. Pensa em sobrecarga de profs, alinhamento curricular, qualidade pedagógica. Linguagem: jornada, professoras, alunos, plano de aula.</div>
+      </div>
+      <div class="persona-card">
+        <div class="emoji">👩‍🏫</div>
+        <div class="role">Professora</div>
+        <div class="impact">É quem faz acontecer em sala. Pensa em tempo, paciência da turma, evento. Sua maior aliada — quando se sente vista.</div>
+      </div>
+      <div class="persona-card">
+        <div class="emoji">👨‍👩‍👧</div>
+        <div class="role">Família</div>
+        <div class="impact">É quem compra o livro e vive o evento. Pensa em emoção, lembrança, orgulho. A magia chega aqui — você não fala direto com ela, mas tudo que você faz a alcança.</div>
+      </div>
+    </div>
+
+    <h3>O que o Clube significa pra cada uma</h3>
+    <table>
+      <thead><tr><th>Persona</th><th>O Clube significa</th><th>Frase-chave</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Diretor</strong></td><td>Reconhecimento institucional. Vínculo da matrícula reforçado.</td><td>"O Clube amplifica o vínculo da matrícula da sua escola."</td></tr>
+        <tr><td><strong>Coordenador</strong></td><td>Moldura pedagógica. Visibilidade do progresso do projeto.</td><td>"O Clube não pede nada extra — reconhece o que vocês já fazem."</td></tr>
+        <tr><td><strong>Professora</strong></td><td>Reconhecimento direto. Presentes que ela usa, certificado dela.</td><td>"Esse certificado é seu. Você está fazendo isso acontecer."</td></tr>
+        <tr><td><strong>Família</strong></td><td>Experiência elevada. Capricho que se vê.</td><td>(Sem comunicação direta — a entrega fala por si.)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="capsule">A família é o destinatário final da magia — mas você não fala com ela. Você fala com a escola. <strong>A escola é seu canal. O capricho do seu trabalho é o que chega na criança.</strong></div>
+
+    <h3>Excelência inegociável — por que tudo isso importa</h3>
+    <div class="callout callout-pink">
+      <div class="callout-title">💜 Cada ato de relacionamento ecoa</div>
+      Quando você esquece de mencionar saldo de pontos por 3 semanas → a coordenadora perde gatilhos de engajamento → a professora não se sente reconhecida → a família recebe um EA "ok", não memorável.<br><br>
+      Quando você apresenta o Clube com calor e clareza → a coordenadora vibra → a professora se sente parte de algo maior → a família guarda o evento como lembrança da vida do filho dela.<br><br>
+      <strong>Cada decisão sua chega na criança. Por isso a régua é alta.</strong>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Adapte o discurso</span>
+      <h3>Para quem você está falando?</h3>
+      <div class="quiz" data-quiz="m8q1">
+        <p class="quiz-question">1. "O Clube amplifica o vínculo da matrícula da sua escola." Pra qual persona?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="true">Diretor / Mantenedor</li>
+          <li class="quiz-option" data-correct="false">Professora</li>
+          <li class="quiz-option" data-correct="false">Família</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m8q2" style="margin-top:24px">
+        <p class="quiz-question">2. "Esse certificado é seu. Você está fazendo isso acontecer." Pra qual persona?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Diretor / Mantenedor</li>
+          <li class="quiz-option" data-correct="true">Professora</li>
+          <li class="quiz-option" data-correct="false">Coordenador Pedagógico</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m8q3" style="margin-top:24px">
+        <p class="quiz-question">3. Você fala diretamente com a família sobre o Clube?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Sim, sempre que possível</li>
+          <li class="quiz-option" data-correct="true">Não — a comunicação com a família passa pela escola. Mas tudo que você faz com a escola chega na família via experiência do EA</li>
+          <li class="quiz-option" data-correct="false">Só com famílias premium</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm9', section: 'PARTE II — VOCÊ É O AGENTE DO MaaS', title: '9 · Você é o porta-voz do MaaS', duration: '7 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 9 · APRESENTE</span>
+      <h2>Você é o porta-voz do MaaS</h2>
+      <p class="lead">O que faz da Estante Mágica única não é o produto. É como você entrega.</p>
+    </div>
+
+    <div class="manifesto">
+      <div class="quote">"Cada escola emocionada. Cada família emocionada pelo nosso acolhimento, presença e materiais de excelência. O Clube sela uma experiência que somente a Estante Mágica proporciona. Isso é muito mais que livros: é transformar vidas e favorecer a educação."</div>
+      <div class="signature">— Magic as a Service · Acontece pelas suas mãos</div>
+    </div>
+
+    <h3>O que é ser porta-voz do MaaS</h3>
+    <p>Magic as a Service não é slogan. É como a gente se diferencia no mercado. Em cada etapa da jornada da escola, tem alguém — você — fazendo o cuidado humano acontecer. Sem você, é só software. Com você, é magia.</p>
+
+    <h3>Os 5 traços do CS que faz magia</h3>
+    <table>
+      <thead><tr><th>Traço</th><th>O que significa na prática</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Acolhimento</strong></td><td>Recebe a escola com calor. Lembra do nome da coordenadora. Pergunta como foi a semana antes de entrar no assunto.</td></tr>
+        <tr><td><strong>Presença</strong></td><td>Está disponível. Responde no prazo. Cumpre o que combina. Nunca deixa a escola "no escuro".</td></tr>
+        <tr><td><strong>Excelência operacional</strong></td><td>Não erra detalhes — porque cada detalhe chega na criança. Marca certo no sistema. Acompanha o saldo. Provoca as ações certas.</td></tr>
+        <tr><td><strong>Generosidade</strong></td><td>Reconhece antes de pedir. Mostra o saldo antes de cobrar a próxima ação. Celebra cada marco.</td></tr>
+        <tr><td><strong>Orgulho de pertencer</strong></td><td>Você representa a líder de mercado. Comunica isso com confiança — sem arrogância, sem inseguranças.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="capsule">"Sou o agente do MaaS" não é frase de manifesto. É a postura que define cada chamada, cada e-mail, cada lembrete que você manda. <strong>Você é o motivo da escola ficar.</strong></div>
+
+    <h3>Por que isso importa especialmente agora</h3>
+    <p>O Clube é uma ferramenta. Mas <strong>quem dá vida à ferramenta é você</strong>. O Clube sem o CS é só um sistema de pontos. Com o CS, vira relacionamento real, tangibilização do reconhecimento, motor de retenção.</p>
+
+    <div class="callout callout-success">
+      <div class="callout-title">🎯 A sua missão no Clube</div>
+      <ul style="margin:8px 0 0 24px">
+        <li><strong>Engajar</strong> — provocar as 7 ações manuais (e celebrar as 9 automáticas)</li>
+        <li><strong>Comunicar</strong> — mencionar o saldo em todo contato, tornar cada marco visível</li>
+        <li><strong>Curar</strong> — ajudar a escola a montar a melhor composição de presentes pro EA dela</li>
+        <li><strong>Acolher</strong> — ser presença humana em cada momento da jornada</li>
+      </ul>
+    </div>
+
+    <h3>Cada ação automática = 1 contato seu</h3>
+    <table>
+      <thead><tr><th>Quando o sistema marca…</th><th>Sua ação</th></tr></thead>
+      <tbody>
+        <tr><td>R1 — Professoras cadastradas (+65 pts)</td><td>Mensagem celebrando + abre o próximo marco (responsáveis cadastrados)</td></tr>
+        <tr><td>R2 — 30% responsáveis (+135 pts)</td><td>Liga reconhecendo + provoca antecipação A1</td></tr>
+        <tr><td>E3 — ≥75% compradores (+85 pts)</td><td>Mensagem comemorando + mostra quanto falta pra próxima faixa de receita</td></tr>
+        <tr><td>E4/E5/E6 — Meta de receita atingida</td><td>Liga emocionada + agenda conversa de escolha do kit</td></tr>
+        <tr><td>A1 — 25% antecipação (+100 pts)</td><td>Mensagem pública pra coordenadora celebrar com o time pedagógico</td></tr>
+      </tbody>
+    </table>
+
+    <div class="didyouknow">
+      <div class="icon">💡</div>
+      <div class="content">
+        <div class="label">Sabia que?</div>
+        <div class="text">As ações automáticas caem no sistema sem ninguém comunicar pra escola. Se você não usa essas marcações como gatilho de contato, a escola só descobre que pontuou quando você liga semanas depois — perdeu o momento da celebração. <strong>Quanto antes você celebra, mais o reconhecimento gera engajamento.</strong></div>
+      </div>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Postura</span>
+      <h3>O CS está no papel?</h3>
+      <div class="quiz" data-quiz="m9q1">
+        <p class="quiz-question">1. O sistema marcou "30% dos responsáveis cadastrados (+135 pts)". Qual a ação correta?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Aguardar a próxima reunião agendada pra mencionar</li>
+          <li class="quiz-option" data-correct="true">Mandar mensagem ou ligar no mesmo dia: celebrar + abrir o próximo marco</li>
+          <li class="quiz-option" data-correct="false">Esperar a escola perguntar se pontuou</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m9q2" style="margin-top:24px">
+        <p class="quiz-question">2. Qual desses 5 traços é mais sobre a postura "não erro detalhes porque tudo chega na criança"?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Acolhimento</li>
+          <li class="quiz-option" data-correct="true">Excelência operacional</li>
+          <li class="quiz-option" data-correct="false">Orgulho de pertencer</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m9q3" style="margin-top:24px">
+        <p class="quiz-question">3. O que é MaaS?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Um sistema interno de relatórios</li>
+          <li class="quiz-option" data-correct="true">Magic as a Service — o jeito Estante Mágica de entregar, que acontece pelas mãos do CS</li>
+          <li class="quiz-option" data-correct="false">Um tipo de campanha de mídia</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm10', section: 'PARTE II — VOCÊ É O AGENTE DO MaaS', title: '10 · Como apresentar', duration: '10 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 10 · APRESENTE</span>
+      <h2>Como apresentar o Clube</h2>
+      <p class="lead">Scripts prontos por momento. Cada um com o "por que funciona" embaixo.</p>
+    </div>
+
+    <h3>Os 3 pilares do discurso</h3>
+    <div class="callout callout-success">
+      <div class="callout-title">1️⃣ "O Clube é o nosso jeito de reconhecer"</div>
+      Pegada de generosidade. A escola entende que está ganhando algo que reconhece o trabalho dela — não cumprindo obrigação.
+    </div>
+    <div class="callout callout-success">
+      <div class="callout-title">2️⃣ "Vocês escolhem como personalizar a experiência do EA"</div>
+      Pegada de protagonismo. A escola é dona da decisão — você é a curadora que ajuda.
+    </div>
+    <div class="callout callout-success">
+      <div class="callout-title">3️⃣ "O presente chega junto com os livros"</div>
+      Pegada de tranquilidade. Sem espera, sem fluxo paralelo, sem ansiedade.
+    </div>
+
+    <h3>Script 1 — Apresentação inicial do Clube</h3>
+    <div class="roleplay-card">
+      <div class="role-tag">QUANDO USAR</div>
+      <p style="font-size:14px; color:#1E3A8A; margin-bottom: 8px;">Na primeira conversa do ciclo com a coordenadora. Pode ser presencial, chamada ou áudio no WhatsApp.</p>
+      <div class="roleplay-line">"Coordenadora Marina, esse ano temos uma novidade incrível: o Clube Estante Mágica. É a nossa forma de reconhecer cada passo que vocês dão no projeto. Cada ação que vocês fazem — cadastrar professoras, atingir metas de venda, fazer ações com alunos — vira pontos. E esses pontos viram presentes reais que enriquecem o evento e valorizam quem faz acontecer. Posso te explicar como funciona?"</div>
+    </div>
+    <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: começa pelo "novidade incrível" (curiosidade), reforça "reconhecer" (generosidade), conecta ação → ponto → presente real, e abre a conversa.</p>
+
+    <h3>Script 2 — Quando uma ação automática cai no sistema</h3>
+    <div class="roleplay-card">
+      <div class="role-tag">QUANDO USAR</div>
+      <p style="font-size:14px; color:#1E3A8A; margin-bottom: 8px;">No mesmo dia em que o sistema marcar a ação automática. Mensagem curta, celebrativa.</p>
+      <div class="roleplay-line">"Marina! Acabei de ver: vocês bateram 30% dos responsáveis cadastrados. Mais 135 pontos no Clube — já estão com 470 pts! 💜 Próximo marco é antecipação: se 25% das compras saírem com 60 dias antes do FC, são mais 100 pts. Posso te ajudar com uma ação direta com as famílias retardatárias?"</div>
+    </div>
+    <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: comemora primeiro, comunica o ganho concreto, abre o próximo marco, oferece ajuda.</p>
+
+    <h3>Script 3 — Apresentando o saldo no meio do ciclo</h3>
+    <div class="roleplay-card">
+      <div class="role-tag">QUANDO USAR</div>
+      <p style="font-size:14px; color:#1E3A8A; margin-bottom: 8px;">Em qualquer contato no meio do ciclo. A regra de ouro: <strong>todo contato menciona o saldo</strong>.</p>
+      <div class="roleplay-line">"Marina, você está com 540 pts acumulados no Clube. Isso já desbloqueia coisas legais: kit completo pras professoras, post da escola no nosso blog, vídeo retrospectiva da turma… O que faria mais sentido pro EA de vocês?"</div>
+    </div>
+    <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: ancora no saldo, lista benefícios concretos, devolve a escolha pra ela.</p>
+
+    <h3>Script 4 — Conversa de escolha do kit (após FC)</h3>
+    <div class="roleplay-card">
+      <div class="role-tag">QUANDO USAR</div>
+      <p style="font-size:14px; color:#1E3A8A; margin-bottom: 8px;">Após o Fecha Compra, quando você for fechar a composição com a escola.</p>
+      <div class="roleplay-line">"Marina, fechamos o ciclo de vocês com 720 pts. Que jornada linda! 💜 O Kit Evento já está garantido — com lambe-lambe, displays, ponteiras estrela e o certificado pra cada professora. Sobraram 380 pts pra gente personalizar. Eu trouxe 3 sugestões pensando no perfil da escola de vocês. Posso te mostrar?"</div>
+    </div>
+    <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: emoção genuína no início, confirma o garantido, mostra o "extra" como personalização, vem com sugestões (mas deixa a escolha aberta).</p>
+
+    <h3>Script 5 — EG chegando</h3>
+    <div class="roleplay-card">
+      <div class="role-tag">QUANDO USAR</div>
+      <p style="font-size:14px; color:#1E3A8A; margin-bottom: 8px;">Quando o Envio Gráfico está próximo e o pedido precisa fechar.</p>
+      <div class="roleplay-line">"Marina, o Envio Gráfico é em [data] — é quando a gente fecha a seleção pro envio sair junto com os livros, sem espera. Bora fechar a composição essa semana pra garantir tudo certinho no envio?"</div>
+    </div>
+    <p style="font-size:13px; color:var(--text-soft); font-style:italic;">↑ Por que funciona: explica o porquê do prazo (sem espera), propõe ação concreta com janela curta.</p>
+
+    <h3>Frases-cápsula pra ter na ponta da língua</h3>
+    <div class="callout callout-pink">
+      <ul style="margin:8px 0 0 24px">
+        <li>"Cada ponto é um obrigada nosso por algo que vocês fizeram."</li>
+        <li>"O Clube reconhece o que vocês já fazem, sem pedir nada extra."</li>
+        <li>"Vocês são parte de uma operação líder de mercado — isso é pioneiro."</li>
+        <li>"O Kit Mágico continua chegando junto com os livros. O Clube é a forma nova de montar ele."</li>
+        <li>"Quanto mais a escola se engaja, mais bonito fica o evento — é só isso."</li>
+      </ul>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Reconheça o script</span>
+      <h3>Cada script tem um propósito</h3>
+      <div class="quiz" data-quiz="m10q1">
+        <p class="quiz-question">1. Qual a regra de ouro pra todo contato com a escola durante o ciclo?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Cobrar a próxima ação</li>
+          <li class="quiz-option" data-correct="true">Mencionar o saldo de pontos atual</li>
+          <li class="quiz-option" data-correct="false">Falar apenas quando a escola perguntar</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m10q2" style="margin-top:24px">
+        <p class="quiz-question">2. Caiu no sistema "75% de compradores confirmados". O que você faz primeiro?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">Cobra a antecipação da escola</li>
+          <li class="quiz-option" data-correct="true">Celebra o marco (mostra os pontos ganhos) e só depois sugere o próximo passo</li>
+          <li class="quiz-option" data-correct="false">Espera o próximo contato agendado</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m10q3" style="margin-top:24px">
+        <p class="quiz-question">3. Na conversa de escolha do kit (pós-FC), qual a melhor abertura?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">"Coordenadora, vamos fechar logo o pedido que tá atrasando"</li>
+          <li class="quiz-option" data-correct="true">"Marina, fechamos o ciclo com X pts. Que jornada linda! O Kit Evento já está garantido. Vamos personalizar o que sobrou juntas?"</li>
+          <li class="quiz-option" data-correct="false">"Olha as opções do catálogo do Clube"</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm11', section: 'PARTE III — DOMINANDO O QUE VIER', title: '11 · Objeções e dúvidas', duration: '9 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">MÓDULO 11 · DOMINE</span>
+      <h2>Objeções, dúvidas e o "Kit Mágico continua"</h2>
+      <p class="lead">Agora que você sabe vender o Clube, vamos cobrir o que a escola pode perguntar — e você sai sabendo responder.</p>
+    </div>
+
+    <h3>"O Kit Mágico não existe mais?" — a pergunta mais comum</h3>
+    <div class="callout callout-info">
+      <div class="callout-title">💡 A verdade simples</div>
+      O Kit Mágico <strong>continua existindo</strong>. O que mudou é a <strong>forma de montar</strong> ele: agora, ao longo do ciclo, a escola acumula pontos no Clube. Esses pontos viram os presentes que vão no Kit Mágico. <strong>O destino é o mesmo. A jornada ficou mais reconhecida.</strong>
+    </div>
+
+    <h4>Resposta-padrão</h4>
+    <div class="roleplay-card">
+      <div class="roleplay-line">"Existe sim, Marina! O Kit Mágico continua chegando junto com os livros. O que mudou é que agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra personalizar o evento e reconhecer quem fez acontecer."</div>
+    </div>
+
+    <h3>Tratamento das objeções mais comuns</h3>
+
+    <div class="reveal-card">
+      <div class="reveal-prompt">💬 "Esse sistema de pontos parece complicado, prefiro não me preocupar."</div>
+      <div class="reveal-answer">
+        <strong>Como responder:</strong><br>
+        "Entendo! O bom é que você não precisa fazer nada extra — a maior parte dos pontos é marcada automaticamente conforme vocês avançam no projeto que já fariam. Eu acompanho o saldo de vocês e vou te avisando quando tiver uma oportunidade legal. Topa?"<br><br>
+        <em>Por que funciona:</em> tira o medo de "trabalho a mais", reforça que o sistema cuida da maior parte, e oferece a sua presença como apoio.
+      </div>
+    </div>
+
+    <div class="reveal-card">
+      <div class="reveal-prompt">💬 "E se a gente não atingir muitos pontos? Vamos ficar sem nada?"</div>
+      <div class="reveal-answer">
+        <strong>Como responder:</strong><br>
+        "Fica tranquila. Toda escola concluinte que completa as ações de kickoff já destrava o Kit Evento — com display, ponteira, lambe-lambe, certificado das professoras. A base do EA está garantida. Os pontos extras servem pra personalizar e adicionar mais itens."<br><br>
+        <em>Por que funciona:</em> reduz a ansiedade, mostra que o Kit Evento é garantido com kickoff (a parte mais simples), e posiciona os extras como bonus.
+      </div>
+    </div>
+
+    <div class="reveal-card">
+      <div class="reveal-prompt">💬 "Vi outra escola com a placa de acrílico. Posso pedir a mesma?"</div>
+      <div class="reveal-answer">
+        <strong>Como responder:</strong><br>
+        "Pode sim! A placa de acrílico está disponível pra todas as escolas no catálogo. O que muda é o quanto cabe no saldo de pontos de cada uma. Olha só pra vocês: vocês têm X pts, a placa custa Y pts na faixa de vocês — então cabe sim. Que tal a gente combinar?"<br><br>
+        <em>Por que funciona:</em> não nega, não exclui. Mostra que está disponível, traduz pro saldo dela, e conduz pra ação.
+      </div>
+    </div>
+
+    <div class="reveal-card">
+      <div class="reveal-prompt">💬 "Posso trocar os itens do Kit Evento por outros equivalentes?"</div>
+      <div class="reveal-answer">
+        <strong>Como responder:</strong><br>
+        "Olha, a gente não costuma incentivar essa troca porque o Kit Evento foi pensado pra entregar uma experiência completa no dia do EA. Mas se for muito importante pra vocês, dá pra fazer — eu abro um chamado pro time de tecnologia e a gente ajusta. Quer que eu encaminhe? Antes, posso te explicar o que cada item do kit faz?"<br><br>
+        <em>Por que funciona:</em> não diz "não" de cara, explica o porquê do padrão, oferece o caminho oficial (chamado), e tenta resgatar a escolha original.
+      </div>
+    </div>
+
+    <div class="reveal-card">
+      <div class="reveal-prompt">💬 "Se a gente bater todas as faixas de receita, soma todos os pontos? 100+155+205 = 460?"</div>
+      <div class="reveal-answer">
+        <strong>Como responder:</strong><br>
+        "Boa pergunta! Cada faixa de receita dá pontos diferentes — mas só conta a faixa mais alta que vocês atingirem. A faixa premium (E6) é a que rende mais: 205 pts. Não soma — substitui. Vou te ajudar a chegar lá!"<br><br>
+        <em>Por que funciona:</em> elogia a pergunta, esclarece sem fazer a escola se sentir mal, e devolve o foco pra meta mais alta.
+      </div>
+    </div>
+
+    <h3>O que NÃO falar — os erros que minam o Clube</h3>
+
+    <div class="mistake-card">
+      <div class="wrong">❌ "Esse ano tiramos vários itens, mas adicionamos pontos."</div>
+      <p>Dispara objeção desnecessária. Foca no que perdeu, não no que ganhou.</p>
+      <div class="right">✅ Substitua por: "O Clube é a forma nova de montar o Kit Mágico, com mais reconhecimento ao longo do ano."</div>
+    </div>
+
+    <div class="mistake-card">
+      <div class="wrong">❌ "Se vocês baterem todas as metas de receita, ganham 100+155+205 pts."</div>
+      <p>Cria expectativa errada. E4/E5/E6 são exclusivas — só conta a maior.</p>
+      <div class="right">✅ Substitua por: "Cada faixa rende pontos diferentes — só conta a faixa mais alta. A premium é a que dá mais (205 pts)."</div>
+    </div>
+
+    <div class="mistake-card">
+      <div class="wrong">❌ "Não, vocês não podem ter esse item, é só pra escolas maiores."</div>
+      <p>Quebra a premissa do programa. Todos os itens estão disponíveis pra todas as faixas.</p>
+      <div class="right">✅ Substitua por: "Tá disponível sim — o que muda é quanto cabe no saldo de vocês. Vou simular agora."</div>
+    </div>
+
+    <div class="mistake-card">
+      <div class="wrong">❌ "O Kit Mágico não existe mais — agora é só o Clube."</div>
+      <p>Resposta errada que confunde a escola. O Kit Mágico continua existindo.</p>
+      <div class="right">✅ Substitua por: "Existe sim! Continua chegando junto com os livros. O Clube é a forma nova de montar ele."</div>
+    </div>
+
+    <div class="mistake-card">
+      <div class="wrong">❌ Marcar "Kit aprovado pela escola" sem ter realmente conversado.</div>
+      <p>Histórico fica registrado. O EA acontece com itens não validados — afeta a família.</p>
+      <div class="right">✅ Substitua por: marque honestamente. Sem contato, marque "sem ok" e avise no chat do time.</div>
+    </div>
+
+    <div class="callout callout-pink">
+      <div class="callout-title">💜 Lembrete: o Clube não veio substituir nada</div>
+      Ele veio <strong>somar</strong> — tangibilizar tudo que a gente sempre entregou, mas que ficava implícito. <strong>O Kit Mágico está mais bonito do que nunca. E o seu trabalho de relacionamento é o que faz ele chegar com magia.</strong>
+    </div>
+
+    <div class="validation-card">
+      <span class="validation-tag">✓ Checkpoint — Domínio das objeções</span>
+      <h3>Como você responde?</h3>
+      <div class="quiz" data-quiz="m11q1">
+        <p class="quiz-question">1. Escola pergunta "O Kit Mágico não existe mais?" Qual a melhor resposta?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">"Não, foi substituído pelo Clube"</li>
+          <li class="quiz-option" data-correct="true">"Existe sim! Continua chegando junto com os livros. O Clube é a forma nova de montar ele."</li>
+          <li class="quiz-option" data-correct="false">"Existe só pra escolas grandes"</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m11q2" style="margin-top:24px">
+        <p class="quiz-question">2. Escola R$8k pergunta se pode ter a placa de acrílico. Resposta correta?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">"Não, é só pra escolas R$10k+"</li>
+          <li class="quiz-option" data-correct="true">"Pode sim! Está disponível pra todas as faixas. Vou simular se cabe no saldo de vocês."</li>
+          <li class="quiz-option" data-correct="false">"Vou ver se consigo liberar como exceção"</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+      <div class="quiz" data-quiz="m11q3" style="margin-top:24px">
+        <p class="quiz-question">3. Escola quer trocar itens do Kit Evento. Como conduzir?</p>
+        <ul class="quiz-options">
+          <li class="quiz-option" data-correct="false">"Não pode, é fixo"</li>
+          <li class="quiz-option" data-correct="true">"Não incentivamos, mas dá. Vou abrir chamado pro time de tec ajustar — antes, posso explicar o que cada item do kit faz?"</li>
+          <li class="quiz-option" data-correct="false">"Eu troco direto no sistema sem registrar"</li>
+        </ul>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  `
+},
+{
+  id: 'm12', section: 'PARTE III — DOMINANDO O QUE VIER', title: '12 · 🎯 Simulador de Conversa', duration: '20 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag simulator">MÓDULO 12 · PRATIQUE</span>
+      <h2>Simulador de Conversa — WhatsApp</h2>
+      <p class="lead">Hora de praticar. Você vai conversar com 5 coordenadoras diferentes — cada uma com uma situação real do dia a dia.</p>
+    </div>
+
+    <div class="simulator-intro">
+      <h3>Como funciona</h3>
+      <p>Você recebe mensagens da coordenadora no WhatsApp. Pra cada mensagem, você escolhe entre 3 respostas possíveis. Cada escolha tem um perfil:<br><br>🟢 <strong>Excelente</strong> — você acertou em cheio<br>🟡 <strong>Aceitável</strong> — funciona, mas dava pra melhorar<br>🔴 <strong>Inadequada</strong> — viola o que a gente conversou no treinamento<br><br>Ao final de cada cenário, sua pontuação — e o feedback do que rolou.</p>
+    </div>
+
+    <div class="scenario-selector" id="scenarioSelector">
+      <!-- gerado por JS -->
+    </div>
+
+    <div id="simulatorActive" style="display:none">
+      <!-- a conversa ativa aparece aqui -->
+    </div>
+
+    <div class="validation-card" id="simulatorCheckpoint" style="display:none">
+      <span class="validation-tag">✓ Checkpoint</span>
+      <h3>Você completou os 5 cenários!</h3>
+      <p>Esses cenários cobrem 95% das conversas que você vai ter na semana. Se passou bem, você está pronta pra apresentar o Clube. Se errou alguns, vale revisitar os módulos anteriores.</p>
+      <p id="simulatorFinalScore" style="font-size:18px; font-weight:700; color:var(--primary-dark);"></p>
+    </div>
+  `
+},
+{
+  id: 'final', section: 'AVALIAÇÃO', title: '13 · Avaliação Final', duration: '15 min',
+  html: `
+    <div class="module-header">
+      <span class="module-tag">AVALIAÇÃO CONSOLIDADA</span>
+      <h2>Sua avaliação final</h2>
+      <p class="lead">12 perguntas que cobrem o que você viu nos 12 módulos. Marque a alternativa correta — você pode mudar a resposta antes de calcular o resultado.</p>
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-title">📝 Como funciona</div>
+      Responda todas as 12 perguntas. Ao clicar em "Calcular meu resultado", o sistema corrige, mostra sua nota e gera um e-mail com seu aproveitamento individual já preenchido — basta clicar em "Enviar registro".
+    </div>
+
+    <div class="quiz" data-quiz="f1" data-final="true">
+      <p class="quiz-question">1. Qual é a virada de chave que o Clube traz pra relação com a escola?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Cobrar prazos com mais firmeza</li>
+        <li class="quiz-option" data-correct="true">Reconhecer e celebrar cada ação que a escola já faz no projeto</li>
+        <li class="quiz-option" data-correct="false">Reduzir o número de contatos com a escola</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f2" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">2. O Kit Mágico foi substituído pelo Clube?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Sim — agora só existe o Clube</li>
+        <li class="quiz-option" data-correct="true">Não — o Kit Mágico continua existindo. O Clube é a forma nova de montá-lo, com reconhecimento ao longo do ano</li>
+        <li class="quiz-option" data-correct="false">Sim, mas só pra escolas R$40k+</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f3" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">3. Quantos pontos uma escola precisa pra destravar o Kit Evento?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">100 pts</li>
+        <li class="quiz-option" data-correct="true">340 pts (as 4 ações de kickoff)</li>
+        <li class="quiz-option" data-correct="false">1.000 pts (todas as ações do ciclo)</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f4" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">4. Uma escola da faixa R$5k–10k pode ver a placa de acrílico (do Kit Escola)?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Não — só escolas R$10k+ veem a placa</li>
+        <li class="quiz-option" data-correct="true">Sim — todos os kits e itens estão disponíveis pra todas as faixas. O que muda é o quanto cabe no saldo</li>
+        <li class="quiz-option" data-correct="false">Só se pagar diferença</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f5" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">5. Sobre as ações E4, E5 e E6 (faixas de receita):</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Somam-se: 100 + 155 + 205 = 460 pts</li>
+        <li class="quiz-option" data-correct="true">São exclusivas — só conta a faixa mais alta atingida</li>
+        <li class="quiz-option" data-correct="false">A escola escolhe qual quer ativar</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f6" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">6. Quais ações o CS precisa marcar manualmente (as ações que dependem da provocação dele)?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Todas as 16 ações</li>
+        <li class="quiz-option" data-correct="true">K1, K4, R4, E1, E2, V1 e V2 — 7 ações que somam 430 pts</li>
+        <li class="quiz-option" data-correct="false">Só E1 e E2</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f7" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">7. O sistema marcou "30% dos responsáveis cadastrados (+135 pts)". Qual a ação correta?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Aguardar o próximo contato agendado</li>
+        <li class="quiz-option" data-correct="true">Mandar mensagem ou ligar no mesmo dia: celebrar + abrir o próximo marco</li>
+        <li class="quiz-option" data-correct="false">Esperar a escola pedir mais informações</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f8" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">8. Como o presente do Clube chega na escola?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Em entrega separada, dias depois dos livros</li>
+        <li class="quiz-option" data-correct="true">Junto com os livros, em caixa separada — mesmo envio, sem espera</li>
+        <li class="quiz-option" data-correct="false">A escola precisa buscar na sede da Estante Mágica</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f9" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">9. Os pontos da escola expiram no EG?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Sim, expiram e são perdidos</li>
+        <li class="quiz-option" data-correct="true">Não — ficam como crédito da escola. Itens não-evento podem vir depois via chamado</li>
+        <li class="quiz-option" data-correct="false">Viram desconto no próximo ciclo</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f10" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">10. Escola pergunta "O Kit Mágico não existe mais?" Qual a melhor resposta?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">"Não, foi substituído pelo Clube"</li>
+        <li class="quiz-option" data-correct="true">"Existe sim! Continua chegando junto com os livros. O Clube é a forma nova de montar ele, com reconhecimento ao longo do ano"</li>
+        <li class="quiz-option" data-correct="false">"Existe só pra escolas R$40k+"</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f11" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">11. Escola pede pra trocar itens do Kit Evento. Como conduzir?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">"É proibido, kit é fixo"</li>
+        <li class="quiz-option" data-correct="true">Não incentivar, mas é possível via fluxo de exceção (chamado para o suporte tec). Antes, explicar o papel emocional de cada item do kit</li>
+        <li class="quiz-option" data-correct="false">Trocar direto no sistema sem registrar</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz" data-quiz="f12" data-final="true" style="margin-top:24px">
+      <p class="quiz-question">12. O que é MaaS?</p>
+      <ul class="quiz-options">
+        <li class="quiz-option" data-correct="false">Um sistema interno de relatórios</li>
+        <li class="quiz-option" data-correct="true">Magic as a Service — o jeito Estante Mágica de entregar, que acontece pelas mãos do CS, etapa por etapa</li>
+        <li class="quiz-option" data-correct="false">Um tipo de campanha de marketing</li>
+      </ul>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div style="text-align:center; margin-top:36px">
+      <button class="btn" id="finishBtn">📊 Calcular meu resultado</button>
+    </div>
+    <div id="finalScore" style="display:none"></div>
+  `
+}];
+
+const state = {
+  current: 0,
+  completed: new Set(),
+  finalAnswers: {},
+  user: { name: '', email: '', team: '', leader: '' },
+  startedAt: null,
+  moduleScores: {},
+  // Simulator state
+  scenarioResults: {}, // scenarioId -> { totalTurns, greens, yellows, reds }
+  activeScenario: null,
+  turnIndex: 0,
+  turnGreens: 0,
+  turnYellows: 0,
+  turnReds: 0
+};
+
+// ============================================================
+// ID FORM
+// ============================================================
+function setupIdForm() {
+  const overlay = document.getElementById('idOverlay');
+  const btn = document.getElementById('idStartBtn');
+  const fields = [
+    { id: 'idName', key: 'name' },
+    { id: 'idEmail', key: 'email' },
+    { id: 'idTeam', key: 'team' },
+    { id: 'idLeader', key: 'leader' }
+  ];
+  btn.addEventListener('click', () => {
+    let valid = true;
+    fields.forEach(f => {
+      const input = document.getElementById(f.id);
+      const wrap = input.parentElement;
+      const val = input.value.trim();
+      let ok = val.length > 0;
+      if (f.key === 'email') ok = ok && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if (f.key === 'name') ok = ok && val.split(' ').filter(Boolean).length >= 2;
+      if (!ok) { wrap.classList.add('has-error'); valid = false; }
+      else { wrap.classList.remove('has-error'); state.user[f.key] = val; }
+    });
+    if (!valid) return;
+    state.startedAt = new Date();
+    overlay.style.display = 'none';
+    document.getElementById('userBadge').style.display = 'block';
+    document.getElementById('userName').textContent = state.user.name;
+    document.getElementById('userMeta').textContent = state.user.team + ' · Líder: ' + state.user.leader;
+  });
+  document.querySelectorAll('.id-field input').forEach(inp => {
+    inp.addEventListener('keypress', e => { if (e.key === 'Enter') btn.click(); });
+  });
+}
+
+// ============================================================
+// NAV
+// ============================================================
+function renderNav() {
+  const nav = document.getElementById('navList');
+  let html = '';
+  let currentSection = null;
+  modules.forEach((m, i) => {
+    if (m.section && m.section !== currentSection) {
+      currentSection = m.section;
+      html += '<li class="nav-section">' + m.section + '</li>';
+    }
+    html += '<li class="nav-item ' + (i === state.current ? 'active' : '') + ' ' +
+      (state.completed.has(i) ? 'completed' : '') + '" data-idx="' + i + '">' +
+      '<span>' + m.title + '</span></li>';
+  });
+  nav.innerHTML = html;
+  nav.querySelectorAll('.nav-item').forEach(el => {
+    el.addEventListener('click', () => goTo(parseInt(el.dataset.idx)));
+  });
+  const pct = Math.round((state.completed.size / modules.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPercent').textContent = pct + '%';
+}
+
+function renderModule() {
+  const m = modules[state.current];
+  const main = document.getElementById('main');
+  const isLast = state.current === modules.length - 1;
+  const isFirst = state.current === 0;
+  main.innerHTML =
+    '<div class="module active" id="module-' + m.id + '">' +
+    m.html +
+    '<div class="nav-buttons">' +
+    '<button class="btn btn-secondary" id="prevBtn" ' + (isFirst ? 'disabled' : '') + '>← Anterior</button>' +
+    (!isLast ? '<button class="btn" id="nextBtn">Próximo →</button>' : '') +
+    '</div></div>';
+  attachInteractions();
+  if (!isFirst) document.getElementById('prevBtn').addEventListener('click', () => goTo(state.current - 1));
+  if (!isLast) document.getElementById('nextBtn').addEventListener('click', () => {
+    state.completed.add(state.current);
+    goTo(state.current + 1);
+  });
+  // Special init for simulator
+  if (m.id === 'm12') initSimulator();
+  if (m.id === 'm6') initCalculator();
+  window.scrollTo(0, 0);
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= modules.length) return;
+  state.current = idx;
+  renderNav();
+  renderModule();
+}
+
+// ============================================================
+// INTERACTIONS (quiz + reveals + finishBtn)
+// ============================================================
+function attachInteractions() {
+  document.querySelectorAll('.quiz').forEach(quiz => {
+    const options = quiz.querySelectorAll('.quiz-option');
+    const feedback = quiz.querySelector('.quiz-feedback');
+    const isFinal = quiz.dataset.final === 'true';
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        if (quiz.classList.contains('answered') && !isFinal) return;
+        if (isFinal) {
+          options.forEach(o => o.classList.remove('selected', 'correct', 'incorrect'));
+          opt.classList.add('selected');
+          state.finalAnswers[quiz.dataset.quiz] = opt.dataset.correct === 'true';
+        } else {
+          options.forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          const correct = opt.dataset.correct === 'true';
+          options.forEach(o => o.classList.add('disabled'));
+          options.forEach(o => { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+          if (!correct) opt.classList.add('incorrect');
+          feedback.classList.add('show');
+          feedback.classList.add(correct ? 'correct' : 'incorrect');
+          feedback.textContent = correct
+            ? '✓ Correto! Você captou o conceito.'
+            : '✗ Não é essa. A resposta correta está em verde — releia o trecho do módulo se quiser fixar.';
+          quiz.classList.add('answered');
+          state.moduleScores[quiz.dataset.quiz] = correct;
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll('.reveal-card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('revealed'));
+  });
+
+  const finishBtn = document.getElementById('finishBtn');
+  if (finishBtn) finishBtn.addEventListener('click', calculateFinalScore);
+}
+
+// ============================================================
+// CALCULATOR (M6)
+// ============================================================
+function initCalculator() {
+  // Pricing table — cost in points per faixa [5k-10k, 10k-20k, 20k-40k, 40k+]
+  const COSTS = {
+    cartela:  [8,   5,   4,   3],   // per prof (pack 5)
+    bloco:    [95,  57,  41,  29],
+    lapis:    [43,  26,  19,  13],
+    caneta:   [68,  41,  29,  21],
+    placa:    [317, 190, 136, 97],  // 1 per school
+    playlist: [68,  41,  29,  21],  // 1
+    video:    [68,  41,  29,  21],
+    post:     [68,  41,  29,  21]
+  };
+  const PER_PROF = new Set(['cartela', 'bloco', 'lapis', 'caneta']);
+
+  function recalc() {
+    const faixa = parseInt(document.getElementById('calcFaixa').value);
+    const saldo = parseInt(document.getElementById('calcSaldo').value) || 0;
+    const profs = parseInt(document.getElementById('calcProfs').value) || 1;
+    let total = 0;
+    document.querySelectorAll('[data-calc-item]').forEach(cb => {
+      if (cb.checked) {
+        const item = cb.dataset.calcItem;
+        const cost = COSTS[item][faixa];
+        const qty = PER_PROF.has(item) ? profs : 1;
+        total += cost * qty;
+      }
+    });
+    const restante = saldo - total;
+    document.getElementById('calcSaldoDisp').textContent = saldo + ' pts';
+    document.getElementById('calcTotal').textContent = total + ' pts';
+    document.getElementById('calcRestante').textContent = restante + ' pts';
+    const msg = document.getElementById('calcMsg');
+    if (restante < 0) {
+      msg.innerHTML = '⚠️ <strong>Saldo insuficiente!</strong> Faltam ' + Math.abs(restante) + ' pts. Remova itens ou ajuste a quantidade.';
+      msg.style.color = '#991B1B';
+    } else if (restante === 0) {
+      msg.innerHTML = '🎯 <strong>Encaixe perfeito!</strong> Você usou todos os pontos disponíveis.';
+      msg.style.color = '#065F46';
+    } else {
+      msg.innerHTML = '✅ <strong>Cabe!</strong> Sobram ' + restante + ' pts no crédito da escola.';
+      msg.style.color = '#065F46';
+    }
+  }
+
+  ['calcFaixa', 'calcSaldo', 'calcAlunos', 'calcProfs'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', recalc);
+  });
+  document.querySelectorAll('[data-calc-item]').forEach(cb => cb.addEventListener('change', recalc));
+  recalc();
+}
+
+// ============================================================
+// SIMULATOR (M12) — caprichado
+// ============================================================
+function initSimulator() {
+  const selector = document.getElementById('scenarioSelector');
+  if (!selector) return;
+  renderScenarioSelector();
+}
+
+function renderScenarioSelector() {
+  const selector = document.getElementById('scenarioSelector');
+  const results = state.scenarioResults;
+  // Conta só cenários completos sem interrupção
+  const completedOk = Object.values(results).filter(r => !r.interrupted).length;
+  selector.innerHTML = SIMULATOR_SCENARIOS.map((sc, idx) => {
+    const result = results[sc.id];
+    let status, cardClass;
+    if (!result) {
+      status = 'Não iniciado';
+      cardClass = '';
+    } else if (result.interrupted) {
+      status = '🚫 Interrompido no turno ' + result.interruptedAtTurn + ' — refaça';
+      cardClass = 'interrupted';
+    } else {
+      status = '✓ ' + result.greens + '🟢 ' + result.yellows + '🟡 ' + result.reds + '🔴';
+      cardClass = 'completed';
+    }
+    return '<div class="scenario-card ' + cardClass + '" data-scenario="' + sc.id + '">' +
+      '<div class="scenario-num">Cenário ' + (idx + 1) + '</div>' +
+      '<div class="scenario-title">' + sc.title + '</div>' +
+      '<div class="scenario-desc">' + sc.description + '</div>' +
+      '<div class="scenario-status">' + status + '</div>' +
+      '</div>';
+  }).join('');
+  selector.querySelectorAll('.scenario-card').forEach(card => {
+    card.addEventListener('click', () => startScenario(card.dataset.scenario));
+  });
+  // Mostra o checkpoint final só se TODOS os 5 cenários foram completados sem interrupção
+  if (completedOk === SIMULATOR_SCENARIOS.length) {
+    const cp = document.getElementById('simulatorCheckpoint');
+    cp.style.display = 'block';
+    const totalGreens = Object.values(results).reduce((s, r) => s + r.greens, 0);
+    const totalTurns = Object.values(results).reduce((s, r) => s + r.totalTurns, 0);
+    const pct = Math.round((totalGreens / totalTurns) * 100);
+    document.getElementById('simulatorFinalScore').innerHTML =
+      'Aproveitamento geral: <strong>' + totalGreens + '/' + totalTurns + ' (' + pct + '%)</strong> escolhas excelentes.';
+  }
+}
+
+function startScenario(scenarioId) {
+  const scenario = SIMULATOR_SCENARIOS.find(s => s.id === scenarioId);
+  if (!scenario) return;
+  state.activeScenario = scenario;
+  state.turnIndex = 0;
+  state.turnGreens = 0;
+  state.turnYellows = 0;
+  state.turnReds = 0;
+  document.getElementById('scenarioSelector').style.display = 'none';
+  const active = document.getElementById('simulatorActive');
+  active.style.display = 'block';
+  renderScenarioUI();
+  loadTurn();
+}
+
+function renderScenarioUI() {
+  const active = document.getElementById('simulatorActive');
+  const sc = state.activeScenario;
+  active.innerHTML =
+    '<button class="btn btn-secondary" id="exitScenario" style="margin-bottom:14px;">← Voltar aos cenários</button>' +
+    '<div class="wpp-frame">' +
+      '<div class="wpp-screen">' +
+        '<div class="wpp-header">' +
+          '<div class="wpp-back">‹</div>' +
+          '<div class="wpp-avatar">' + sc.avatar + '</div>' +
+          '<div class="wpp-contact">' +
+            '<div class="wpp-contact-name">' + sc.contactName + '</div>' +
+            '<div class="wpp-contact-status">online</div>' +
+          '</div>' +
+          '<div class="wpp-actions">📞 ⋮</div>' +
+        '</div>' +
+        '<div class="wpp-messages" id="wppMessages"></div>' +
+        '<div class="wpp-input-area">' +
+          '<div class="wpp-input-fake">Escolha sua resposta abaixo ↓</div>' +
+          '<div class="wpp-send">➤</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div id="choicesArea"></div>';
+  document.getElementById('exitScenario').addEventListener('click', () => {
+    state.activeScenario = null;
+    document.getElementById('simulatorActive').style.display = 'none';
+    document.getElementById('scenarioSelector').style.display = 'grid';
+    renderScenarioSelector();
+  });
+}
+
+function loadTurn() {
+  const sc = state.activeScenario;
+  const turn = sc.turns[state.turnIndex];
+  if (!turn) {
+    finishScenario();
+    return;
+  }
+  // Show typing indicator first
+  const messages = document.getElementById('wppMessages');
+  const typingEl = document.createElement('div');
+  typingEl.className = 'wpp-typing';
+  typingEl.innerHTML = '<div class="wpp-typing-dots"><span></span><span></span><span></span></div>';
+  messages.appendChild(typingEl);
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+    typingEl.remove();
+    // School message
+    if (!turn.school.startsWith('[')) {
+      const msgEl = document.createElement('div');
+      msgEl.className = 'wpp-msg school';
+      msgEl.innerHTML = escapeHTML(turn.school) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+      messages.appendChild(msgEl);
+    } else {
+      // Internal note (CS initiates)
+      const noteEl = document.createElement('div');
+      noteEl.style.cssText = 'align-self:center; background:rgba(0,0,0,0.05); color:var(--text-soft); padding:6px 14px; border-radius:14px; font-size:11px; font-style:italic; margin:6px 0;';
+      noteEl.textContent = turn.school.replace(/^\[|\]$/g, '');
+      messages.appendChild(noteEl);
+    }
+    messages.scrollTop = messages.scrollHeight;
+    showChoices(turn);
+  }, 1200);
+}
+
+function showChoices(turn) {
+  const choicesArea = document.getElementById('choicesArea');
+  let html = '<div class="choices-panel"><div class="choices-label">💬 Como você responde?</div>';
+  turn.choices.forEach((choice, idx) => {
+    html += '<button class="choice-btn" data-choice="' + idx + '">' + escapeHTML(choice.text) + '</button>';
+  });
+  html += '</div>';
+  choicesArea.innerHTML = html;
+  choicesArea.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleChoice(parseInt(btn.dataset.choice)));
+  });
+}
+
+function handleChoice(choiceIdx) {
+  const turn = state.activeScenario.turns[state.turnIndex];
+  const choice = turn.choices[choiceIdx];
+
+  // Add CS message
+  const messages = document.getElementById('wppMessages');
+  const msgEl = document.createElement('div');
+  msgEl.className = 'wpp-msg cs';
+  msgEl.innerHTML = escapeHTML(choice.text) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+  messages.appendChild(msgEl);
+  messages.scrollTop = messages.scrollHeight;
+
+  // Count level
+  if (choice.level === 'green') state.turnGreens++;
+  else if (choice.level === 'yellow') state.turnYellows++;
+  else state.turnReds++;
+
+  // Limpa a área de escolhas imediatamente
+  const choicesArea = document.getElementById('choicesArea');
+  choicesArea.innerHTML = '';
+
+  // Após pequeno delay, mostra a "reação" da escola
+  if (choice.reaction) {
+    const typingEl = document.createElement('div');
+    typingEl.className = 'wpp-typing';
+    typingEl.innerHTML = '<div class="wpp-typing-dots"><span></span><span></span><span></span></div>';
+    messages.appendChild(typingEl);
+    messages.scrollTop = messages.scrollHeight;
+    setTimeout(() => {
+      typingEl.remove();
+      const reactionEl = document.createElement('div');
+      reactionEl.className = 'wpp-msg school';
+      reactionEl.innerHTML = escapeHTML(choice.reaction) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+      messages.appendChild(reactionEl);
+      messages.scrollTop = messages.scrollHeight;
+      // 🔴 INTERROMPE a conversa imediatamente após a reação
+      if (choice.level === 'red') {
+        setTimeout(() => showInterruptedPanel(choice, choicesArea), 500);
+      } else {
+        showFeedbackPanel(choice, choicesArea);
+      }
+    }, 900);
+  } else {
+    if (choice.level === 'red') {
+      showInterruptedPanel(choice, choicesArea);
+    } else {
+      showFeedbackPanel(choice, choicesArea);
+    }
+  }
+}
+
+function showFeedbackPanel(choice, choicesArea) {
+  const labels = { green: '🟢 Excelente', yellow: '🟡 Aceitável', red: '🔴 Inadequada' };
+  choicesArea.innerHTML =
+    '<div class="turn-feedback ' + choice.level + '">' +
+      '<div class="turn-feedback-label">' + labels[choice.level] + '</div>' +
+      '<div class="turn-feedback-text">' + escapeHTML(choice.feedback) + '</div>' +
+    '</div>' +
+    '<div style="text-align:center; margin-top:14px">' +
+      '<button class="btn" id="nextTurnBtn">Continuar →</button>' +
+    '</div>';
+  document.getElementById('nextTurnBtn').addEventListener('click', () => {
+    state.turnIndex++;
+    loadTurn();
+  });
+}
+
+function showInterruptedPanel(choice, choicesArea) {
+  // Adiciona nota visual no chat de que a conversa encerrou
+  const messages = document.getElementById('wppMessages');
+  const endNoteEl = document.createElement('div');
+  endNoteEl.style.cssText = 'align-self:center; background:#FEE2E2; color:#991B1B; padding:8px 16px; border-radius:14px; font-size:11px; font-weight:600; margin:8px 0; text-align:center; max-width:90%; border:1px solid #EF4444;';
+  endNoteEl.innerHTML = '🚫 A coordenadora encerrou a conversa';
+  messages.appendChild(endNoteEl);
+  messages.scrollTop = messages.scrollHeight;
+
+  choicesArea.innerHTML =
+    '<div class="turn-feedback red">' +
+      '<div class="turn-feedback-label">🚫 Conversa interrompida pela coordenadora</div>' +
+      '<div class="turn-feedback-text">' + escapeHTML(choice.feedback) + '</div>' +
+    '</div>' +
+    '<div style="text-align:center; margin-top:18px">' +
+      '<p style="font-size:14px; color:var(--text-soft); margin-bottom:14px; font-style:italic;">No mundo real, respostas inadequadas custam o relacionamento. Reflita sobre a escolha e refaça pra praticar.</p>' +
+      '<button class="btn" id="retryScenarioBtn" style="margin-right:8px;">🔄 Refazer cenário</button>' +
+      '<button class="btn btn-secondary" id="backToScenariosBtn">← Voltar aos cenários</button>' +
+    '</div>';
+
+  // Registra resultado como interrompido
+  const sc = state.activeScenario;
+  state.scenarioResults[sc.id] = {
+    totalTurns: sc.turns.length,
+    greens: state.turnGreens,
+    yellows: state.turnYellows,
+    reds: state.turnReds,
+    pct: 0,
+    interrupted: true,
+    interruptedAtTurn: state.turnIndex + 1
+  };
+
+  document.getElementById('retryScenarioBtn').addEventListener('click', () => {
+    startScenario(sc.id);
+  });
+  document.getElementById('backToScenariosBtn').addEventListener('click', exitScenario);
+}
+
+function finishScenario() {
+  const sc = state.activeScenario;
+  const total = sc.turns.length;
+  const greens = state.turnGreens;
+  const pct = Math.round((greens / total) * 100);
+  state.scenarioResults[sc.id] = {
+    totalTurns: total,
+    greens: greens,
+    yellows: state.turnYellows,
+    reds: state.turnReds,
+    pct: pct
+  };
+
+  let stars, title;
+  if (pct >= 90) { stars = '🌟🌟🌟'; title = 'Excelente!'; }
+  else if (pct >= 60) { stars = '🌟🌟'; title = 'Bom trabalho!'; }
+  else { stars = '🌟'; title = 'Reveja os módulos'; }
+
+  const active = document.getElementById('simulatorActive');
+  active.innerHTML =
+    '<button class="btn btn-secondary" id="exitScenario" style="margin-bottom:14px;">← Voltar aos cenários</button>' +
+    '<div class="scenario-result">' +
+      '<div class="result-stars">' + stars + '</div>' +
+      '<div class="result-title">' + title + '</div>' +
+      '<div class="result-pct">' + greens + '/' + total + ' escolhas excelentes (' + pct + '%)</div>' +
+      '<div style="font-size:14px; opacity:0.9; margin-bottom:14px;">' +
+        '🟢 ' + greens + ' · 🟡 ' + state.turnYellows + ' · 🔴 ' + state.turnReds +
+      '</div>' +
+      '<button class="btn" id="backToScenarios">Voltar aos cenários</button>' +
+    '</div>';
+  document.getElementById('exitScenario').addEventListener('click', exitScenario);
+  document.getElementById('backToScenarios').addEventListener('click', exitScenario);
+}
+
+function exitScenario() {
+  state.activeScenario = null;
+  document.getElementById('simulatorActive').style.display = 'none';
+  document.getElementById('scenarioSelector').style.display = 'grid';
+  renderScenarioSelector();
+}
+
+function escapeHTML(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function currentTime() {
+  const d = new Date();
+  return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+// ============================================================
+// FINAL SCORE
+// ============================================================
+function calculateFinalScore() {
+  const total = 12;
+  const correct = Object.values(state.finalAnswers).filter(v => v === true).length;
+  const answered = Object.keys(state.finalAnswers).length;
+  if (answered < total) {
+    alert('Você respondeu ' + answered + ' de ' + total + ' perguntas. Responda todas antes de calcular o resultado.');
+    return;
+  }
+  const pct = Math.round((correct / total) * 100);
+  let msg, cor, status;
+  if (pct >= 90) { msg = 'Excelente! Você está pronto para fazer a magia acontecer.'; cor = '#10B981'; status = 'APROVADO COM EXCELÊNCIA'; }
+  else if (pct >= 70) { msg = 'Bom trabalho! Você está aprovado. Reveja os pontos que errou pra chegar lá.'; cor = '#F59E0B'; status = 'APROVADO'; }
+  else { msg = 'Recomendamos revisar os módulos antes de aplicar com as escolas.'; cor = '#EF4444'; status = 'NECESSITA REVISÃO'; }
+
+  document.querySelectorAll('.quiz[data-final="true"]').forEach(q => {
+    q.querySelectorAll('.quiz-option').forEach(o => {
+      o.classList.add('disabled');
+      if (o.dataset.correct === 'true') o.classList.add('correct');
+      else if (o.classList.contains('selected')) o.classList.add('incorrect');
+    });
+  });
+
+  const moduleCorrect = Object.values(state.moduleScores).filter(v => v === true).length;
+  const moduleTotal = Object.keys(state.moduleScores).length;
+  const modulePct = moduleTotal > 0 ? Math.round((moduleCorrect / moduleTotal) * 100) : 0;
+
+  // Simulator stats
+  const scenarioCount = Object.keys(state.scenarioResults).length;
+  const totalGreens = Object.values(state.scenarioResults).reduce((s, r) => s + r.greens, 0);
+  const totalTurns = Object.values(state.scenarioResults).reduce((s, r) => s + r.totalTurns, 0);
+  const simPct = totalTurns > 0 ? Math.round((totalGreens / totalTurns) * 100) : 0;
+
+  const finishedAt = new Date();
+  const durationMin = state.startedAt ? Math.round((finishedAt - state.startedAt) / 60000) : '—';
+
+  const finalDetail = Object.entries(state.finalAnswers)
+    .map(([k, v]) => '  • Pergunta ' + k.replace('f','') + ': ' + (v ? '✓ correta' : '✗ incorreta'))
+    .join('\n');
+
+  const simulatorDetail = SIMULATOR_SCENARIOS.map(sc => {
+    const r = state.scenarioResults[sc.id];
+    if (!r) return '  • ' + sc.title + ': não realizado';
+    if (r.interrupted) return '  • ' + sc.title + ': 🚫 Interrompido no turno ' + r.interruptedAtTurn;
+    return '  • ' + sc.title + ': 🟢' + r.greens + ' 🟡' + r.yellows + ' 🔴' + r.reds + ' (' + r.pct + '%)';
+  }).join('\n');
+
+  const subject = 'Conclusão do Treinamento Clube Estante Mágica — ' + state.user.name;
+  const body = 'Olá Amanda,\n\n' +
+    'Concluí o treinamento interativo do Clube Estante Mágica. Segue meu aproveitamento:\n\n' +
+    '═══════════════════════════════════════\n' +
+    'IDENTIFICAÇÃO\n' +
+    '═══════════════════════════════════════\n' +
+    'Nome: ' + state.user.name + '\n' +
+    'E-mail: ' + state.user.email + '\n' +
+    'Time / Squad: ' + state.user.team + '\n' +
+    'Líder direto: ' + state.user.leader + '\n\n' +
+    '═══════════════════════════════════════\n' +
+    'AVALIAÇÃO FINAL CONSOLIDADA\n' +
+    '═══════════════════════════════════════\n' +
+    'Nota: ' + correct + '/' + total + ' (' + pct + '%)\n' +
+    'Status: ' + status + '\n' +
+    'Início: ' + (state.startedAt ? state.startedAt.toLocaleString('pt-BR') : '—') + '\n' +
+    'Conclusão: ' + finishedAt.toLocaleString('pt-BR') + '\n' +
+    'Tempo total: ' + durationMin + ' min\n\n' +
+    '═══════════════════════════════════════\n' +
+    'CHECKPOINTS DOS MÓDULOS\n' +
+    '═══════════════════════════════════════\n' +
+    'Acertos nos checkpoints: ' + moduleCorrect + '/' + moduleTotal + ' (' + modulePct + '%)\n\n' +
+    '═══════════════════════════════════════\n' +
+    'SIMULADOR DE CONVERSA (5 cenários WhatsApp)\n' +
+    '═══════════════════════════════════════\n' +
+    'Cenários realizados: ' + scenarioCount + '/5\n' +
+    'Escolhas excelentes: ' + totalGreens + '/' + totalTurns + ' (' + simPct + '%)\n\n' +
+    simulatorDetail + '\n\n' +
+    '═══════════════════════════════════════\n' +
+    'DETALHE DAS RESPOSTAS — AVALIAÇÃO FINAL\n' +
+    '═══════════════════════════════════════\n' +
+    finalDetail + '\n\n' +
+    '—\n' +
+    'Registro automático gerado pelo treinamento interativo.';
+
+  const mailtoUrl = 'mailto:' + ADMIN_EMAIL +
+    '?subject=' + encodeURIComponent(subject) +
+    '&body=' + encodeURIComponent(body);
+
+  const scoreEl = document.getElementById('finalScore');
+  scoreEl.style.display = 'block';
+  scoreEl.innerHTML =
+    '<div class="score-display" style="background:linear-gradient(135deg,' + cor + ',' + cor + 'dd)">' +
+      '<div class="score-number">' + correct + '/' + total + '</div>' +
+      '<div class="score-label">' + pct + '% de acerto · ' + status + '</div>' +
+      '<p style="margin-top:8px;opacity:0.9;font-size:14px">' + state.user.name + ' · ' + state.user.team + '</p>' +
+      '<p style="margin-top:16px;font-size:16px">' + msg + '</p>' +
+      '<p style="margin-top:14px;font-size:13px;opacity:0.85">' +
+        'Checkpoints: ' + moduleCorrect + '/' + moduleTotal + ' · ' +
+        'Simulador: ' + totalGreens + '/' + totalTurns + ' 🟢 · ' +
+        'Tempo: ' + durationMin + ' min</p>' +
+    '</div>' +
+    '<div class="callout callout-warning">' +
+      '<div class="callout-title">📧 Envie seu aproveitamento individual</div>' +
+      '<p style="margin-bottom:10px"><strong>Opção 1 — Botão de e-mail:</strong> clica no botão abaixo, abre teu cliente de e-mail (Mail, Outlook etc.) já preenchido com tudo. Você só revisa e clica em <em>Enviar</em>.</p>' +
+      '<p style="margin-bottom:10px"><strong>Opção 2 (se o e-mail não abrir automaticamente):</strong> clica em <em>📋 Copiar registro</em>, abre o teu Gmail/Outlook na web, cola no corpo do e-mail e manda pra <strong>' + ADMIN_EMAIL + '</strong>.</p>' +
+      '<div class="result-actions">' +
+        '<a href="' + mailtoUrl + '" class="btn">📧 Enviar registro de conclusão</a>' +
+        '<button class="btn btn-secondary" id="copyResultBtn">📋 Copiar registro</button>' +
+      '</div>' +
+      '<p style="margin-top:12px;font-size:13px;color:var(--text-soft)">Destinatário: ' + ADMIN_EMAIL + '</p>' +
+    '</div>' +
+    '<div class="callout callout-info">' +
+      '<div class="callout-title">🚀 O que você está habilitada(o) a fazer agora</div>' +
+      '<ul style="margin:8px 0 0 24px">' +
+        '<li>Apresentar o Clube como novidade — com calor, generosidade e os 3 pilares do discurso</li>' +
+        '<li>Mencionar o saldo de pontos em todo contato com a escola (regra de ouro)</li>' +
+        '<li>Provocar as 7 ações manuais e celebrar cada ação automática no mesmo dia</li>' +
+        '<li>Conduzir conversas difíceis (Kit Mágico continua, pedidos de exceção, escolas sumidas)</li>' +
+        '<li>Ser o agente do MaaS — cada decisão sua chegando na criança</li>' +
+      '</ul>' +
+    '</div>';
+  const copyBtn = document.getElementById('copyResultBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const fullText = 'Para: ' + ADMIN_EMAIL + '\nAssunto: ' + subject + '\n\n' + body;
+      navigator.clipboard.writeText(fullText).then(() => {
+        copyBtn.textContent = '✓ Copiado!';
+        setTimeout(() => { copyBtn.textContent = '📋 Copiar registro'; }, 2000);
+      });
+    });
+  }
+  state.completed.add(state.current);
+  renderNav();
+  scoreEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Init
+setupIdForm();
+renderNav();
+renderModule();
+</script>
+</body>
+</html>
