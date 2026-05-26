@@ -576,7 +576,7 @@ window.SIMULATOR_SCENARIOS = [
   {
     id: 'sc1',
     title: 'Primeira apresentação do Clube',
-    description: 'Coordenadora Marina — escola nova, kickoff feito, primeira conversa estendida',
+    description: 'Coordenadora Marina — escola nova, início do projeto feito, primeira conversa estendida',
     avatar: 'M',
     contactName: 'Marina · Coord. Escola Sementinha',
     turns: [
@@ -586,16 +586,19 @@ window.SIMULATOR_SCENARIOS = [
           {
             text: 'Oi Marina! É super simples — é um programa onde vocês acumulam pontos pra ganhar prêmios.',
             level: 'yellow',
+            reaction: 'Hmm, prêmios? Pensei que fosse algo mais especial… mas tá, conta mais.',
             feedback: 'Funciona, mas é raso demais — "programa de prêmios" rebaixa o conceito. O Clube é sobre reconhecimento, não troca utilitária. Falta a emoção.'
           },
           {
             text: 'Oi Marina, tudo ótimo! 💜 O Clube é a nossa forma nova de reconhecer o esforço da escola durante o ano todo. Cada ação que vocês fazem no projeto vira pontos — e os pontos viram presentes reais que enriquecem o evento e valorizam quem faz acontecer. Posso te contar como funciona em 5 min?',
             level: 'green',
+            reaction: 'Aaa que linda forma de explicar! Já gostei. Vamos sim, me conta tudo. 💜',
             feedback: 'Perfeito! Você abriu com emoção, posicionou como "forma nova de reconhecer" (sem comparar), conectou ação→ponto→presente real, e fechou com pacto de tempo.'
           },
           {
             text: 'Marina, é um sistema novo de fidelidade que a EM lançou esse ano. Antes era diferente, agora tem pontos.',
             level: 'red',
+            reaction: 'Hmm, fidelidade? E como era antes? Agora fiquei mais confusa…',
             feedback: 'Erro grande: "sistema de fidelidade" rebaixa. E "antes era diferente" abre porta pra comparação com kits anteriores — o que dispara objeções. Foco no novo, sempre.'
           }
         ]
@@ -604,18 +607,21 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aaa que legal! E quantos pontos a gente já tem? Faz tempo que estamos com vocês esse ano.',
         choices: [
           {
-            text: 'Vou conferir no sistema e te mando o saldo!',
-            level: 'yellow',
-            feedback: 'OK mas perde uma oportunidade. Você poderia já trazer o saldo aproximado e celebrar — esse é o momento de gerar engajamento.'
+            text: 'Boa pergunta! Olhei aqui no nosso sistema: vocês já estão com 280 pts (cronograma, formato e tema do projeto já fechados) — faltam só 60 pts pra destravar o Kit Evento! E o cadastro de professoras também já dá +65 pts. Bora fechar isso essa semana?',
+            level: 'green',
+            reaction: 'Aaa que demais! Já temos tudo isso? 🎉 Vamos sim, me ajuda a fechar.',
+            feedback: 'Excelente! Você consultou o sistema na hora, celebrou o já conquistado, mostrou o próximo marco com clareza, e propôs ação concreta.'
           },
           {
-            text: 'Boa pergunta! Olhei aqui na Rachel: vocês já estão com 280 pts do kickoff (cronograma, formato e tema) — faltam só 60 pts pra destravar o Kit Evento! E o cadastro de professoras (R1) também já dá +65 pts. Bora fechar isso essa semana?',
-            level: 'green',
-            feedback: 'Excelente! Você consultou o sistema na hora, celebrou o já conquistado, mostrou o próximo marco com clareza, e propôs ação concreta.'
+            text: 'Vou conferir no sistema e te mando o saldo!',
+            level: 'yellow',
+            reaction: 'Tá, beleza, aguardo então.',
+            feedback: 'OK mas perde uma oportunidade. Você poderia já trazer o saldo aproximado e celebrar — esse é o momento de gerar engajamento.'
           },
           {
             text: 'Não sei ainda, depois te falo. Por enquanto foca em vender que os pontos vêm depois.',
             level: 'red',
+            reaction: 'Hmm, achei estranho… era só uma pergunta pra entender.',
             feedback: 'Erro: você é o canal de comunicação dos pontos. "Depois te falo" quebra a regra de ouro (mencionar saldo em todo contato) e passa imagem de descaso.'
           }
         ]
@@ -626,17 +632,20 @@ window.SIMULATOR_SCENARIOS = [
           {
             text: 'Sim, é tipo um desconto que vocês usam nos materiais do EA.',
             level: 'red',
+            reaction: 'Ah, entendi… então é desconto.',
             feedback: 'Erro: o Clube NÃO é desconto. É reconhecimento por meio de presentes reais. Falar "desconto" rebaixa o programa e cria expectativa errada.'
-          },
-          {
-            text: 'Não é desconto, é reconhecimento real. Os pontos viram presentes que enriquecem o evento: certificado pra cada professora, plaquinhas pra foto, lambe-lambe, presentes pras professoras, placa de parceria pra escola… vai depender de quanto vocês acumularem. Que tal eu te mostrar o catálogo numa chamada de 15 min?',
-            level: 'green',
-            feedback: 'Perfeito! Desfez o equívoco com firmeza, listou exemplos concretos e emocionais, e propôs ação concreta pra avançar.'
           },
           {
             text: 'É tipo brindes que vão junto do kit.',
             level: 'yellow',
+            reaction: 'Hmm, tá… brindes. Mas tipo o quê?',
             feedback: 'Funciona, mas "brindes" não captura o espírito de reconhecimento. Faltou conectar com pessoas (professoras, alunos) e com o evento.'
+          },
+          {
+            text: 'Não é desconto, é reconhecimento real. Os pontos viram presentes que enriquecem o evento: certificado pra cada professora, plaquinhas pra foto, lambe-lambe, presentes pras professoras, placa de parceria pra escola… vai depender de quanto vocês acumularem. Que tal eu te mostrar o catálogo numa chamada de 15 min?',
+            level: 'green',
+            reaction: 'Aaa que beleza! Adorei essa ideia. Pode marcar essa chamada sim! 💜',
+            feedback: 'Perfeito! Desfez o equívoco com firmeza, listou exemplos concretos e emocionais, e propôs ação concreta pra avançar.'
           }
         ]
       },
@@ -644,18 +653,21 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Adorei! E quando vocês mandam isso pra gente?',
         choices: [
           {
-            text: 'Mando depois do Envio Gráfico, junto com os livros — em caixa separada, mesmo envio. Pra você fechar a composição até o EG, a gente combina uma chamada após o Fecha Compra, ok?',
-            level: 'green',
-            feedback: 'Perfeito! Trouxe a informação central (caixa separada, mesmo envio, sem espera), explicou os marcos (EG e FC), e já agendou o próximo passo.'
-          },
-          {
             text: 'Vai uma entrega separada um pouco antes do evento.',
             level: 'red',
+            reaction: 'Hmm, vai ter mais uma entrega? Quando exatamente? Fiquei preocupada.',
             feedback: 'Erro crítico: cria expectativa errada. O presente vai JUNTO com os livros, em caixa separada — mesmo envio. "Entrega separada antes do evento" não existe.'
+          },
+          {
+            text: 'Mando junto com os livros — em caixa separada, mesmo envio, sem espera. Pra a gente fechar a composição do kit, vou te chamar logo depois do fechamento de compras pra escolhermos juntas, ok?',
+            level: 'green',
+            reaction: 'Perfeito! Vai chegar tudo junto, sem stress. Combinado! 💜',
+            feedback: 'Perfeito! Trouxe a informação central (caixa separada, mesmo envio, sem espera), explicou os marcos do envio e do fechamento de compras, e já agendou o próximo passo.'
           },
           {
             text: 'Você vai ver! Mando quando estiver pronto.',
             level: 'yellow',
+            reaction: 'Tá… fiquei meio insegura sobre os prazos, mas tudo bem.',
             feedback: 'Vago. A coordenadora precisa entender o fluxo pra confiar no processo. Seja específica sobre como e quando chega.'
           }
         ]
@@ -671,21 +683,24 @@ window.SIMULATOR_SCENARIOS = [
     contactName: 'Bia · Coord. Escola Bem-Te-Vi',
     turns: [
       {
-        school: 'Oi, gostei muito desse Clube novo, mas confesso uma coisa: meu marido falou que o Kit Mágico que a gente tinha ano passado não existe mais. É isso mesmo? :(',
+        school: 'Oi! Gostei muito desse Clube novo, mas confesso uma coisa: quando assumi a coordenação esse ano, ouvi de uma colega da rede que o Kit Mágico que vocês entregavam antes não existe mais. É isso mesmo? :(',
         choices: [
           {
             text: 'Não, Bia! O Kit Mágico continua existindo, prometo! O que mudou é a forma como ele é montado: agora vocês acumulam pontos no Clube ao longo do ano e escolhem o que vai dentro — pra deixar o evento ainda mais a cara da escola de vocês.',
             level: 'green',
+            reaction: 'Aaaaaa que alívio! 😍 Que bom saber que continua!',
             feedback: 'Perfeito! Reasseguração imediata + esclarecimento simples. Não comparou com nada, focou no que ela ganha agora (personalização).'
           },
           {
             text: 'Olha, mudou bastante coisa. Saíram alguns itens do kit antigo, mas adicionamos um sistema de pontos.',
             level: 'red',
+            reaction: 'Como assim saíram itens?? Aaah, fiquei triste agora… 😟',
             feedback: 'Erro grave: "saíram alguns itens" dispara exatamente a objeção que a Bia tava tentando confirmar. Você joga lenha na fogueira.'
           },
           {
             text: 'Continua sim, é só uma forma diferente agora.',
             level: 'yellow',
+            reaction: 'Hmm, ok… mas continua exatamente como antes ou mudou?',
             feedback: 'OK mas frio. Bia está ansiosa — ela precisa de uma resposta acolhedora, não só técnica. Explica mais.'
           }
         ]
@@ -694,19 +709,22 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aí que alívio! Ano passado a gente AMOU o lambe-lambe, os displays pros alunos, o certificado das profs… vai continuar tendo?',
         choices: [
           {
-            text: 'Tudo isso continua! Lambe-lambe, displays, certificado da educadora, plaquinha de foto, ponteira estrela — todos fazem parte do Kit Evento. E o Kit Evento é destravado automaticamente assim que vocês completam as ações de kickoff (que vocês já fizeram). 💜',
-            level: 'green',
-            feedback: 'Excelente! Confirmou item por item (gerando alívio), explicou o "como" do destravamento, e celebrou o que ela já fez.'
-          },
-          {
             text: 'A maior parte continua, sim.',
             level: 'yellow',
+            reaction: 'Hmm, mas quais especificamente? Quero saber pra me preparar.',
             feedback: 'Vago demais. Quando a escola lista os itens emocionados, você confirma item por item — isso constrói confiança.'
           },
           {
             text: 'Continua, mas vocês podem trocar se quiserem agora com o Clube.',
             level: 'red',
+            reaction: 'Espera, não quero trocar nada! Eu só quero saber se o que a gente amou continua…',
             feedback: 'Erro: a Bia não pediu pra trocar, ela quer SABER se continua. Sugerir troca preventivamente confunde. E ainda incentiva troca do Kit Evento, que não é o que queremos.'
+          },
+          {
+            text: 'Tudo isso continua! Lambe-lambe, displays, certificado da educadora, plaquinha de foto, ponteira estrela — todos fazem parte do Kit Evento. E o Kit Evento é destravado automaticamente assim que vocês completam as primeiras ações do projeto (que vocês já fizeram). 💜',
+            level: 'green',
+            reaction: 'Aaaaa que delícia! Já me sinto tranquila. Adorei. 💜',
+            feedback: 'Excelente! Confirmou item por item (gerando alívio), explicou o "como" do destravamento, e celebrou o que ela já fez.'
           }
         ]
       },
@@ -716,16 +734,19 @@ window.SIMULATOR_SCENARIOS = [
           {
             text: 'Muda que vocês ganham mais coisas! Antes era só o kit padrão, agora vocês acumulam pontos extras pra adicionar itens.',
             level: 'yellow',
+            reaction: 'Hmm… mas o antigo era ruim? Não entendi essa comparação.',
             feedback: 'Comparativo desnecessário. A regra de ouro é foco no novo. Apresenta o Clube como ele é, não em comparação.'
           },
           {
             text: 'O que muda é lindo: agora vocês têm visibilidade do progresso ao longo do ano. Cada cadastro de professora, cada ação de engajamento, cada meta de venda — vira pontos, vira reconhecimento concreto. E vocês escolhem o que vai dentro do kit pra personalizar a experiência do EA. É a nossa forma de dizer obrigada o ano inteiro, não só no evento.',
             level: 'green',
+            reaction: 'Que coisa mais bonita. Estou muito empolgada com isso! 💜',
             feedback: 'Perfeito! Linguagem emocional, foco no que ela ganha de NOVO (visibilidade, escolha, reconhecimento contínuo), sem comparação com o antigo.'
           },
           {
             text: 'Honestamente, a operação por trás é a mesma. O Clube é mais uma camada de marketing.',
             level: 'red',
+            reaction: 'Hmm… então é mais do mesmo? Achei que era algo especial. 😕',
             feedback: 'Erro catastrófico: NUNCA rebaixa o programa. Você é o porta-voz da magia, não a pessoa que entrega cinismo.'
           }
         ]
@@ -734,19 +755,22 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Perfeito! Já estou com saudade do evento desse ano. Você é demais, viu?',
         choices: [
           {
-            text: 'Obrigada, Bia! 💜 É genuíno o que a gente sente pelo trabalho de vocês também. Você está com 470 pts no Clube já. Tô animada pra gente fechar essa jornada com chave de ouro juntas. Te falo na semana que vem com o próximo marco?',
-            level: 'green',
-            feedback: 'Perfeito! Reciprocidade genuína, ancorou no saldo (regra de ouro), agendou próximo contato. Relacionamento fortalecido.'
-          },
-          {
             text: 'Obrigada! Te falo depois.',
             level: 'yellow',
+            reaction: 'Tá, te aguardo então. [tom leve]',
             feedback: 'Não erra, mas perde a chance de aprofundar. Bia te abriu o coração — você poderia ancorar no saldo, mostrar o próximo marco, fortalecer o vínculo.'
           },
           {
             text: 'Hahaha imagina, é só o meu trabalho.',
             level: 'red',
+            reaction: 'Ah… ok. [um pouco constrangida]',
             feedback: 'Errado: subestima o seu papel. Você É o agente do MaaS. Receba o reconhecimento com profissionalismo e devolve aprofundando o relacionamento.'
+          },
+          {
+            text: 'Obrigada, Bia! 💜 É genuíno o que a gente sente pelo trabalho de vocês também. Você está com 470 pts no Clube já. Tô animada pra gente fechar essa jornada com chave de ouro juntas. Te falo na semana que vem com o próximo marco?',
+            level: 'green',
+            reaction: 'Aaaaa que carinho! Vamos sim. Combinado! 💜',
+            feedback: 'Perfeito! Reciprocidade genuína, ancorou no saldo (regra de ouro), agendou próximo contato. Relacionamento fortalecido.'
           }
         ]
       }
@@ -764,19 +788,22 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Oi! Vi uma escola amiga postando uma placa de acrílico linda de "parceria Estante Mágica" na recepção dela. Quero uma também! Posso?',
         choices: [
           {
-            text: 'Pode sim, Ana! A placa de acrílico está disponível pra todas as escolas — está no nosso catálogo. Deixa eu olhar aqui quanto custa em pontos pra faixa de vocês e ver se cabe no saldo atual. Vai aí, vou simular agora!',
-            level: 'green',
-            feedback: 'Perfeito! Não nega, não exclui — confirma disponibilidade, traduz pro contexto da escola dela (saldo + faixa), e age na hora.'
-          },
-          {
             text: 'A placa de acrílico é só pra escolas R$10k pra cima, infelizmente.',
             level: 'red',
+            reaction: 'Ah, que pena… pensei que poderia ter pra escola da gente também. 😔',
             feedback: 'Erro: a placa está disponível pra TODAS as faixas. Quem decide é o saldo. Você violou a premissa de "todos veem tudo" e gerou frustração desnecessária.'
           },
           {
             text: 'Acho que sim, mas tenho que checar com meu líder.',
             level: 'yellow',
+            reaction: 'Hmm, ok… aguardo então. Mas dá pra ter uma resposta logo?',
             feedback: 'Funciona, mas é hesitação desnecessária. Você sabe a regra — a placa está no catálogo, basta consultar o saldo da escola. Confiança no próprio repertório.'
+          },
+          {
+            text: 'Pode sim, Ana! A placa de acrílico está disponível pra todas as escolas — está no nosso catálogo. Deixa eu olhar aqui quanto custa em pontos pra faixa de vocês e ver se cabe no saldo atual. Vai aí, vou simular agora!',
+            level: 'green',
+            reaction: 'Aaaa que ótimo! Já fiquei animada. 💜',
+            feedback: 'Perfeito! Não nega, não exclui — confirma disponibilidade, traduz pro contexto da escola dela (saldo + faixa), e age na hora.'
           }
         ]
       },
@@ -786,17 +813,20 @@ window.SIMULATOR_SCENARIOS = [
           {
             text: 'A escola de vocês está na faixa R$10k–20k. Nessa faixa, a placa de acrílico custa 190 pts. Vocês estão com 380 pts hoje — então cabe. Sobram 190 pts pra adicionar outras coisas, tipo uma playlist personalizada da turma ou um post no nosso blog destacando a escola. Quer que eu te mostre?',
             level: 'green',
+            reaction: 'Aaaa que demais! Não imaginava que tinha tantas opções. Quero ver sim!',
             feedback: 'Perfeito! Resposta específica, com números reais, mostra que cabe e ainda traz opções de uso pro restante. Generosa e curadora.'
-          },
-          {
-            text: 'É um item caro em pontos, vocês ainda precisam acumular bastante.',
-            level: 'red',
-            feedback: 'Erro: você não conferiu o saldo dela antes de responder. Pode estar criando ansiedade desnecessária. Sempre responda com base nos números reais da escola.'
           },
           {
             text: 'Custa uns 200 pts mais ou menos, acho.',
             level: 'yellow',
+            reaction: 'Hmm, ok… e cabe no nosso saldo? Você consegue olhar certinho?',
             feedback: 'Você está perto, mas vago demais e impreciso. Quando responder sobre custos, consulte a tabela e seja exata. Confiança vem da precisão.'
+          },
+          {
+            text: 'É um item caro em pontos, vocês ainda precisam acumular bastante.',
+            level: 'red',
+            reaction: 'Ah, que pena, achei que daria. 😔',
+            feedback: 'Erro: você não conferiu o saldo dela antes de responder. Pode estar criando ansiedade desnecessária. Sempre responda com base nos números reais da escola.'
           }
         ]
       },
@@ -804,18 +834,21 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Demais! E é só pedir que vocês mandam?',
         choices: [
           {
-            text: 'É exatamente isso. Quando a gente fechar a composição do kit no fim do ciclo (após o FC), eu já registro a placa e ela vai junto com os livros, em caixa separada do envio, sem espera. Tá combinado?',
-            level: 'green',
-            feedback: 'Perfeito! Explicou o fluxo completo (composição pós-FC, envio junto com livros, caixa separada). Conduz com confiança e fecha o acordo.'
-          },
-          {
             text: 'É só pedir mesmo, vai junto.',
             level: 'yellow',
+            reaction: 'Tá… mas e como funciona exatamente? Quero entender pra organizar aqui.',
             feedback: 'OK mas perde a oportunidade de educar sobre o fluxo. Coordenadora nova precisa entender o "como" pra confiar. Detalhe.'
+          },
+          {
+            text: 'É exatamente isso. Quando a gente fechar a composição do kit no fim do ciclo (após o fechamento de compras), eu já registro a placa e ela vai junto com os livros, em caixa separada do envio, sem espera. Tá combinado?',
+            level: 'green',
+            reaction: 'Adorei, tudo certinho! 💜 Combinado!',
+            feedback: 'Perfeito! Explicou o fluxo completo (composição pós-fechamento de compras, envio junto com livros, caixa separada). Conduz com confiança e fecha o acordo.'
           },
           {
             text: 'Sim, mas depende do estoque.',
             level: 'red',
+            reaction: 'Hmm, estoque? Fiquei meio insegura agora… vai que não tem? 😟',
             feedback: 'Erro: você não tem essa informação e isso não é parte do nosso processo padrão. Não invente caveats — gera ansiedade.'
           }
         ]
@@ -825,28 +858,31 @@ window.SIMULATOR_SCENARIOS = [
 
   {
     id: 'sc4',
-    title: 'EG chegando e escola sumiu',
-    description: 'Coordenadora Carla — não responde há 8 dias, EG é em 3 dias',
+    title: 'Data limite chegando e escola sumiu',
+    description: 'Coordenadora Carla — não responde há 8 dias, data limite pra fechar o pedido é em 3 dias',
     avatar: 'C',
     contactName: 'Carla · Coord. Escola Trevo',
     turns: [
       {
-        school: '[Você está iniciando o contato — Carla não responde há 8 dias e o Envio Gráfico é em 3 dias]',
+        school: '[Você está iniciando o contato — Carla não responde há 8 dias e a data limite pra fechar o pedido do Clube é em 3 dias]',
         choices: [
           {
-            text: 'Carla, cadê vc?? Já são 8 dias sem resposta. O EG é em 3 dias. Se vc não responder, vai sem os extras do kit.',
-            level: 'red',
-            feedback: 'Erro grave: tom de cobrança e ameaça. Vai gerar resistência e dor na relação. Lembrar: postura de acolhimento e presença, não de cobrança.'
-          },
-          {
-            text: 'Carla! Tudo bem por aí? 💜 Sumi tentando te encontrar essa semana. Você tá com 620 pts no Clube e o Envio Gráfico é em 3 dias — é a janela pra fechar a composição do kit. Tô com 3 sugestões já pensadas pra escola de vocês. Posso te ligar em 15 min hoje?',
+            text: 'Carla! Tudo bem por aí? 💜 Sumi tentando te encontrar essa semana. Você tá com 620 pts no Clube e a data limite pra fechar o pedido é em 3 dias — é a janela pra escolhermos a composição do kit. Tô com 3 sugestões já pensadas pra escola de vocês. Posso te ligar em 15 min hoje?',
             level: 'green',
+            reaction: 'Aiii, que carinho! Pode sim, me liga sim por favor! 💜',
             feedback: 'Excelente! Postura de cuidado ("tudo bem por aí?"), mencionou o saldo (regra de ouro), explicou o porquê do prazo, ofereceu solução pronta, propôs ação concreta com janela curta.'
           },
           {
             text: 'Oi Carla, lembrei aqui de você. Quando der, me responde.',
             level: 'yellow',
-            feedback: 'Genérico demais pra urgência. Em 3 dias do EG, você precisa puxar pra ação — sem agressividade, mas com clareza do que está em jogo.'
+            reaction: 'Ah, oi! Tô atolada aqui… vou tentar responder logo.',
+            feedback: 'Genérico demais pra urgência. Em 3 dias do prazo, você precisa puxar pra ação — sem agressividade, mas com clareza do que está em jogo.'
+          },
+          {
+            text: 'Carla, cadê vc?? Já são 8 dias sem resposta. A data limite tá em 3 dias. Se vc não responder, vai sem os extras do kit.',
+            level: 'red',
+            reaction: 'Nossa… achei essa mensagem meio bruta. Tô numa loucura aqui, ó.',
+            feedback: 'Erro grave: tom de cobrança e ameaça. Vai gerar resistência e dor na relação. Lembrar: postura de acolhimento e presença, não de cobrança.'
           }
         ]
       },
@@ -854,19 +890,22 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aiii desculpa Mariana, semana caótica aqui! Tô atrás de prof nova, é uma loucura. O que precisa de mim?',
         choices: [
           {
+            text: 'Precisa fechar o kit. Sem isso não dá pra mandar.',
+            level: 'yellow',
+            reaction: 'Tá, ok… mas o que exatamente preciso fazer?',
+            feedback: 'Curto demais e sem empatia. Carla acabou de te contar que tá numa correria — recebê-la com calor antes de avançar com a tarefa.'
+          },
+          {
             text: 'Imagina, Carla! Vida de coordenadora é sempre uma corrida. Olha, o que precisa é simples: você confirmar a composição final do kit. Eu já montei uma sugestão considerando os 620 pts de vocês — Kit Evento garantido + Kit Professor pras 4 profs + placa de acrílico de parceria. Topa que eu te mando um print agora pra você confirmar?',
             level: 'green',
+            reaction: 'Aaaa que demais, manda sim por favor! Adorei vc já ter pensado pra mim.',
             feedback: 'Perfeito! Empatia com a situação dela, conexão humana, depois solução pronta (você já trabalhou pra ela), e proposta de ação fácil — só confirmar.'
           },
           {
-            text: 'Precisa que vc escolha tudo do zero — manda no WhatsApp os itens que quer.',
+            text: 'Precisa que vc escolha tudo do zero — manda os itens que quer.',
             level: 'red',
+            reaction: 'Nossa… é muita coisa pra eu ver agora. Não tem como vc me ajudar a montar?',
             feedback: 'Erro: você joga a decisão de volta pra ela, que já tá sobrecarregada. Como CS, você facilita o caminho. Traga sugestão pronta.'
-          },
-          {
-            text: 'Precisa fechar o kit. Sem isso não dá pra mandar.',
-            level: 'yellow',
-            feedback: 'Curto demais e sem empatia. Carla acabou de te contar que tá numa correria — recebê-la com calor antes de avançar com a tarefa.'
           }
         ]
       },
@@ -874,19 +913,22 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Aaa que maravilha, manda sim por favor!',
         choices: [
           {
-            text: 'Tá vindo! Mando em 10 min com a lista detalhada e um cálculo dos pontos. Se vc topar tudo, é só me responder "tá bom" que eu já fecho na Rachel hoje, antes do EG. E olha — qualquer ajuste, dá pra fazer agora ainda, só me dizer.',
-            level: 'green',
-            feedback: 'Perfeito! Compromisso claro de tempo (10 min), próximos passos definidos, ofereceu flexibilidade pra ajustes. Conduz pelo conforto.'
-          },
-          {
             text: 'Beleza, mando.',
             level: 'yellow',
+            reaction: 'Tá, te aguardo então.',
             feedback: 'OK mas perde a oportunidade de instalar o fechamento. Quando vc envia, ela pode ficar olhando indefinidamente. Defina o caminho de resposta.'
           },
           {
             text: 'Mando depois.',
             level: 'red',
-            feedback: 'Errado: você acabou de prometer ação imediata. EG é em 3 dias. "Depois" é abrir margem pra atraso. Aqui é hora de fechar com clareza.'
+            reaction: 'Ah… ok… [com receio, achei que era urgente]',
+            feedback: 'Errado: você acabou de prometer ação imediata. A data limite é em 3 dias. "Depois" é abrir margem pra atraso. Aqui é hora de fechar com clareza.'
+          },
+          {
+            text: 'Tá vindo! Mando em 10 min com a lista detalhada e um cálculo dos pontos. Se vc topar tudo, é só me responder "tá bom" que eu já fecho no nosso sistema hoje, antes da data limite. E olha — qualquer ajuste, dá pra fazer agora ainda, só me dizer.',
+            level: 'green',
+            reaction: 'Perfeito, aguardo! 💜 Já estou tranquila.',
+            feedback: 'Perfeito! Compromisso claro de tempo (10 min), próximos passos definidos, ofereceu flexibilidade pra ajustes. Conduz pelo conforto.'
           }
         ]
       }
@@ -904,19 +946,22 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Oi! Olhei aqui o Kit Evento e queria saber se a gente pode trocar o lambe-lambe e os displays por outras coisas equivalentes em pontos. Achei que outros itens combinam mais com a estética que a gente quer pro evento.',
         choices: [
           {
-            text: 'Olha, Renata, é proibido. Kit Evento é fixo, não tem como mudar.',
-            level: 'red',
-            feedback: 'Erro: não é proibido. É possível via fluxo de exceção. Negar de cara fecha a porta e perde a confiança.'
-          },
-          {
             text: 'Não vamos incentivar essa troca, Renata, porque o Kit Evento foi pensado especificamente pra entregar uma experiência completa no dia do EA — cada item tem um papel emocional. Mas se for muito importante pra vocês, dá pra fazer: eu abro um chamado pro time de tecnologia e a gente ajusta. Antes, posso te explicar o que cada item do kit faz no dia do evento? Talvez você queira manter alguma coisa.',
             level: 'green',
+            reaction: 'Aaaa que interessante! Não sabia desse fluxo. Vou querer entender sim, conta!',
             feedback: 'Perfeito! Sincera sobre o "não incentivamos" + explicou o porquê + ofereceu o caminho oficial (fluxo de exceção) + tentou resgatar a escolha original com empatia. Domínio total.'
+          },
+          {
+            text: 'Olha, Renata, é proibido. Kit Evento é fixo, não tem como mudar.',
+            level: 'red',
+            reaction: 'Nossa, achei muito rígido isso… achei que tinha jeito.',
+            feedback: 'Erro: não é proibido. É possível via fluxo de exceção. Negar de cara fecha a porta e perde a confiança.'
           },
           {
             text: 'Pode trocar tudo sim, sem problema! Te ajudo a escolher.',
             level: 'red',
-            feedback: 'Erro: você é incentivar o que a gente NÃO quer incentivar. O Kit Evento foi pensado como experiência completa do dia. Trocar sem questionar tira a magia do evento.'
+            reaction: 'Aaa que ótimo! Mas espera, é mesmo? Sem critério nenhum? Quero entender.',
+            feedback: 'Erro: você está incentivando o que a gente NÃO quer incentivar. O Kit Evento foi pensado como experiência completa do dia. Trocar sem questionar tira a magia do evento.'
           }
         ]
       },
@@ -924,18 +969,21 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Eu não sabia que tinha esse fluxo, achei que era impossível! Mas conta sim, o que cada item faz?',
         choices: [
           {
-            text: 'Vou listar rapidinho! 📋 Lambe-lambe — vai na entrada, é a foto que toda família tira. Display de mesa — cada aluno tem o seu, com o nome dele. Plaquinha de foto — pra prof segurar nas fotos coletivas. Ponteira estrela — cada criança ganha uma pra levar pra casa. Certificado da educadora — entrega solene no fim do evento. Cada item gera um momento. É por isso a gente não incentiva trocar.',
-            level: 'green',
-            feedback: 'Perfeito! Cada item com função emocional clara. Você humanizou cada peça do kit — agora a Renata vai pensar duas vezes antes de tirar algo. Você é curadora, não vendedora.'
-          },
-          {
             text: 'São só uns objetos do kit padrão, nada demais.',
             level: 'red',
+            reaction: 'Hmm… então não tem tanta importância assim? Tá, então quero trocar mesmo.',
             feedback: 'Erro catastrófico: você é o porta-voz do MaaS. Cada item tem propósito emocional e o seu trabalho é traduzir isso pra coordenadora.'
+          },
+          {
+            text: 'Vou listar rapidinho! 📋 Lambe-lambe — vai na entrada, é a foto que toda família tira. Display de mesa — cada aluno tem o seu, com o nome dele. Plaquinha de foto — pra prof segurar nas fotos coletivas. Ponteira estrela — cada criança ganha uma pra levar pra casa. Certificado da educadora — entrega solene no fim do evento. Cada item gera um momento. É por isso a gente não incentiva trocar.',
+            level: 'green',
+            reaction: 'Aaaaa que lindo! Cada coisa tem propósito. Agora entendi. 💜',
+            feedback: 'Perfeito! Cada item com função emocional clara. Você humanizou cada peça do kit — agora a Renata vai pensar duas vezes antes de tirar algo. Você é curadora, não vendedora.'
           },
           {
             text: 'Te mando depois uma lista por escrito.',
             level: 'yellow',
+            reaction: 'Tá, aguardo então. Mas se der pra me adiantar agora qualquer coisa…',
             feedback: 'Você teve a oportunidade de educar agora — e procrastinou. Renata tá engajada, atenta. Aproveite o momento.'
           }
         ]
@@ -944,18 +992,21 @@ window.SIMULATOR_SCENARIOS = [
         school: 'Nossa, agora que vc explicou eu vejo como cada coisa importa. Acho que vou manter o Kit Evento original e usar os pontos extras pra adicionar mais coisas. O que vc sugere?',
         choices: [
           {
-            text: 'Que ótima decisão! 💜 Olhando o saldo de vocês (720 pts, sobram 380 depois do Kit Evento), eu sugiro: Kit Professor pras 3 profs (excelente reconhecimento pessoal) + uma playlist personalizada da turma. Total: 320 pts. Sobram 60 pts pra um lambe-lambe extra ou um post no blog da Estante Mágica. O que faz mais sentido pra vocês?',
-            level: 'green',
-            feedback: 'Perfeito! Validou a decisão dela, ancorou no saldo, montou uma proposta concreta com explicação de cada escolha, deixou margem pra ela escolher os detalhes finais. Curadoria de verdade.'
-          },
-          {
             text: 'Vc escolhe! Olha o catálogo e me fala.',
             level: 'red',
+            reaction: 'Ah… mas vc não vai me ajudar a escolher? Achei que ia ter uma curadoria.',
             feedback: 'Erro: você é a CS. Sua função é curar, não jogar a decisão de volta. Renata acabou de te confiar a escolha — receba isso com profissionalismo.'
+          },
+          {
+            text: 'Que ótima decisão! 💜 Olhando o saldo de vocês (720 pts, sobram 380 depois do Kit Evento), eu sugiro: Kit Professor pras 3 profs (excelente reconhecimento pessoal) + uma playlist personalizada da turma. Total: 320 pts. Sobram 60 pts pra um lambe-lambe extra ou um post no blog da Estante Mágica. O que faz mais sentido pra vocês?',
+            level: 'green',
+            reaction: 'Aaaa adorei! Vou querer exatamente isso. Você é demais. 💜',
+            feedback: 'Perfeito! Validou a decisão dela, ancorou no saldo, montou uma proposta concreta com explicação de cada escolha, deixou margem pra ela escolher os detalhes finais. Curadoria de verdade.'
           },
           {
             text: 'Sugiro adicionar a placa de acrílico, é a mais bonita.',
             level: 'yellow',
+            reaction: 'Hmm, mas é o que cabe no nosso saldo? E é o que faz mais sentido pra escola?',
             feedback: 'Não é errado, mas é raso. Você sugeriu um item sem considerar saldo, perfil da escola ou o que ela já tem. Curadoria é considerar o todo.'
           }
         ]
@@ -1174,10 +1225,10 @@ const modules = [{
         <div class="reveal-answer"><strong>Resposta:</strong> Não. Fica abaixo do mínimo de R$5k. <strong>Não menciona o Clube</strong> pra ela — pra evitar criar expectativa frustrante.</div>
       </div>
       <div class="quiz" data-quiz="m3q1" style="margin-top:24px">
-        <p class="quiz-question">1. Uma escola pode ver MC4? Ou só vê os kits da sua faixa?</p>
+        <p class="quiz-question">1. Uma escola pequena pode ver o Kit Escola (com placa de acrílico)? Ou só vê os kits da sua faixa?</p>
         <ul class="quiz-options">
-          <li class="quiz-option" data-correct="false">Só vê os kits da faixa dela</li>
           <li class="quiz-option" data-correct="true">Pode ver todos os kits — eles cabem em 1.000 pts pra qualquer faixa</li>
+          <li class="quiz-option" data-correct="false">Só vê os kits da faixa dela</li>
           <li class="quiz-option" data-correct="false">Só vê o Kit Evento, os outros são surpresa</li>
         </ul>
         <div class="quiz-feedback"></div>
@@ -2002,7 +2053,7 @@ const modules = [{
         <ul class="quiz-options">
           <li class="quiz-option" data-correct="false">"Coordenadora, vamos fechar logo o pedido que tá atrasando"</li>
           <li class="quiz-option" data-correct="true">"Marina, fechamos o ciclo com X pts. Que jornada linda! O Kit Evento já está garantido. Vamos personalizar o que sobrou juntas?"</li>
-          <li class="quiz-option" data-correct="false">"Olha as opções da MC1 a MC4"</li>
+          <li class="quiz-option" data-correct="false">"Olha as opções do catálogo do Clube"</li>
         </ul>
         <div class="quiz-feedback"></div>
       </div>
@@ -2672,8 +2723,32 @@ function handleChoice(choiceIdx) {
   else if (choice.level === 'yellow') state.turnYellows++;
   else state.turnReds++;
 
-  // Show feedback
+  // Disable choices area imediatamente
   const choicesArea = document.getElementById('choicesArea');
+  choicesArea.innerHTML = '';
+
+  // Após pequeno delay, mostra a "reação" da escola (balão extra antes do feedback didático)
+  if (choice.reaction) {
+    const typingEl = document.createElement('div');
+    typingEl.className = 'wpp-typing';
+    typingEl.innerHTML = '<div class="wpp-typing-dots"><span></span><span></span><span></span></div>';
+    messages.appendChild(typingEl);
+    messages.scrollTop = messages.scrollHeight;
+    setTimeout(() => {
+      typingEl.remove();
+      const reactionEl = document.createElement('div');
+      reactionEl.className = 'wpp-msg school';
+      reactionEl.innerHTML = escapeHTML(choice.reaction) + '<div class="wpp-msg-time">' + currentTime() + '</div>';
+      messages.appendChild(reactionEl);
+      messages.scrollTop = messages.scrollHeight;
+      showFeedbackPanel(choice, choicesArea);
+    }, 900);
+  } else {
+    showFeedbackPanel(choice, choicesArea);
+  }
+}
+
+function showFeedbackPanel(choice, choicesArea) {
   const labels = { green: '🟢 Excelente', yellow: '🟡 Aceitável', red: '🔴 Inadequada' };
   choicesArea.innerHTML =
     '<div class="turn-feedback ' + choice.level + '">' +
@@ -2840,7 +2915,8 @@ function calculateFinalScore() {
     '</div>' +
     '<div class="callout callout-warning">' +
       '<div class="callout-title">📧 Envie seu aproveitamento individual</div>' +
-      'Clique abaixo. O e-mail será aberto no seu cliente já preenchido — você só clica em "Enviar".' +
+      '<p style="margin-bottom:10px"><strong>Opção 1 — Botão de e-mail:</strong> clica no botão abaixo, abre teu cliente de e-mail (Mail, Outlook etc.) já preenchido com tudo. Você só revisa e clica em <em>Enviar</em>.</p>' +
+      '<p style="margin-bottom:10px"><strong>Opção 2 (se o e-mail não abrir automaticamente):</strong> clica em <em>📋 Copiar registro</em>, abre o teu Gmail/Outlook na web, cola no corpo do e-mail e manda pra <strong>' + ADMIN_EMAIL + '</strong>.</p>' +
       '<div class="result-actions">' +
         '<a href="' + mailtoUrl + '" class="btn">📧 Enviar registro de conclusão</a>' +
         '<button class="btn btn-secondary" id="copyResultBtn">📋 Copiar registro</button>' +
